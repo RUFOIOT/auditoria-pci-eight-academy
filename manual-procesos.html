@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Procesos y Procedimientos — Eight Academy 2025-2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+  :root { --azul:#1a3a5c; --dorado:#f5a623; --azul-claro:#2c5282; --gris:#f7f8fa; --borde:#e2e8f0; --texto:#2d3748; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Open Sans',Arial,sans-serif; color:var(--texto); background:#fff; font-size:11pt; line-height:1.75; }
+  @media print {
+    .page-break { page-break-before:always; }
+    .portada { page-break-after:always; }
+    body { font-size:10pt; }
+  }
+
+  /* PORTADA */
+  .portada { background:linear-gradient(160deg,var(--azul) 55%,#0f2440 100%); color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 40px; text-align:center; }
+  .portada .escudo { width:110px; height:110px; background:var(--dorado); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:52px; margin-bottom:28px; box-shadow:0 8px 30px rgba(245,166,35,.4); }
+  .portada .inst { font-size:.85rem; letter-spacing:3px; text-transform:uppercase; color:var(--dorado); font-weight:700; margin-bottom:6px; }
+  .portada h1 { font-family:'Playfair Display',Georgia,serif; font-size:2rem; font-weight:700; margin-bottom:4px; }
+  .portada .linea { width:70px; height:3px; background:var(--dorado); margin:22px auto; border-radius:2px; }
+  .portada .doc-title { font-family:'Playfair Display',Georgia,serif; font-size:2.6rem; font-weight:700; color:var(--dorado); line-height:1.2; margin-bottom:8px; }
+  .portada .doc-sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:42px; }
+  .portada .ficha { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:12px; padding:22px 38px; display:inline-grid; grid-template-columns:auto auto; gap:7px 22px; text-align:left; font-size:.88rem; }
+  .portada .ficha span:nth-child(odd) { color:var(--dorado); font-weight:700; }
+  .portada .ficha span:nth-child(even) { color:rgba(255,255,255,.9); }
+  .portada .codigo { margin-top:22px; font-size:.78rem; color:rgba(255,255,255,.5); letter-spacing:2px; text-transform:uppercase; }
+
+  /* LAYOUT */
+  .contenido { max-width:920px; margin:0 auto; padding:40px 30px; }
+
+  /* TOC */
+  .toc { background:var(--gris); border-left:4px solid var(--dorado); border-radius:8px; padding:28px 34px; margin:40px 0; }
+  .toc h2 { font-family:'Playfair Display',Georgia,serif; color:var(--azul); font-size:1.2rem; margin-bottom:18px; }
+  .toc ol { padding-left:18px; column-count:2; column-gap:30px; }
+  .toc li { margin-bottom:5px; }
+  .toc a { color:var(--azul-claro); text-decoration:none; font-size:.92rem; }
+  .toc a:hover { color:var(--dorado); }
+
+  /* SECCIONES */
+  .seccion { margin-bottom:55px; }
+  .sec-header { background:var(--azul); color:#fff; padding:15px 26px; border-radius:8px 8px 0 0; display:flex; align-items:center; gap:14px; }
+  .sec-header .num { background:var(--dorado); color:var(--azul); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.95rem; flex-shrink:0; }
+  .sec-header h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.25rem; font-weight:700; }
+  .sec-body { border:1px solid var(--borde); border-top:none; border-radius:0 0 8px 8px; padding:28px; background:#fff; }
+
+  /* TIPOGRAFÍA */
+  h3 { font-family:'Playfair Display',Georgia,serif; color:var(--azul); font-size:1.08rem; margin:22px 0 9px; border-bottom:2px solid var(--dorado); padding-bottom:5px; display:inline-block; }
+  h4 { color:var(--azul-claro); font-size:.98rem; margin:16px 0 7px; font-weight:700; }
+  p { margin-bottom:11px; text-align:justify; }
+  ul,ol { margin:9px 0 13px 22px; }
+  li { margin-bottom:5px; }
+  strong { color:var(--azul); }
+
+  /* PROCESO CARD */
+  .proceso { border:1px solid var(--borde); border-radius:10px; margin:16px 0; overflow:hidden; }
+  .proceso-header { background:var(--azul); color:#fff; padding:12px 20px; display:flex; align-items:center; gap:12px; }
+  .proceso-header .icon { font-size:1.4rem; }
+  .proceso-header h4 { color:#fff; margin:0; font-size:1rem; }
+  .proceso-code { margin-left:auto; font-size:.75rem; color:var(--dorado); font-weight:700; letter-spacing:1px; }
+  .proceso-body { padding:20px 24px; }
+  .proceso-body .meta { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+  .proceso-body .meta-item { background:var(--gris); border-radius:6px; padding:10px 14px; }
+  .proceso-body .meta-item label { font-size:.72rem; text-transform:uppercase; color:#888; display:block; margin-bottom:3px; font-weight:700; }
+  .proceso-body .meta-item span { font-size:.88rem; color:var(--azul); font-weight:600; }
+
+  /* FLUJO */
+  .flujo { background:var(--gris); border-radius:8px; padding:18px 20px; margin:14px 0; }
+  .flujo h4 { margin-top:0; margin-bottom:12px; }
+  .paso { display:flex; align-items:flex-start; gap:12px; margin-bottom:10px; }
+  .paso .paso-num { background:var(--azul); color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; flex-shrink:0; margin-top:2px; }
+  .paso .paso-txt { flex:1; font-size:.9rem; }
+  .paso .paso-txt strong { font-weight:700; }
+  .paso-decision { background:#fff3cd; border:1px solid #ffc107; border-radius:6px; padding:8px 14px; margin:6px 0 6px 40px; font-size:.85rem; }
+  .paso-decision::before { content:"🔀 Decisión: "; font-weight:700; color:#856404; }
+
+  /* TABLA */
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:.88rem; }
+  thead { background:var(--azul); color:#fff; }
+  thead th { padding:10px 12px; text-align:left; font-weight:600; font-size:.82rem; }
+  tbody tr:nth-child(even) { background:var(--gris); }
+  tbody td { padding:8px 12px; border-bottom:1px solid var(--borde); }
+
+  /* MV */
+  .mv-box { background:linear-gradient(135deg,var(--azul),var(--azul-claro)); color:#fff; border-radius:10px; padding:26px 30px; margin:14px 0; }
+  .mv-box h3 { color:var(--dorado); border-bottom-color:var(--dorado); margin-top:0; }
+  .mv-box p { color:rgba(255,255,255,.92); margin:0; }
+
+  /* SIMBOLOGÍA */
+  .simbolos { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
+  .simbolo { background:var(--gris); border-radius:8px; padding:12px 14px; display:flex; align-items:center; gap:10px; }
+  .simbolo .shape { width:38px; height:38px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
+  .simbolo p { font-size:.8rem; margin:0; }
+
+  /* ALERTA */
+  .alerta { background:#fff8e1; border-left:4px solid var(--dorado); border-radius:0 8px 8px 0; padding:14px 18px; margin:14px 0; font-size:.9rem; }
+  .alerta strong { color:#7c5a00; }
+  .infobox { background:#e8f4fd; border:1px solid #b8ddf7; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:.9rem; }
+
+  /* ORGANIGRAMA */
+  .org { display:flex; flex-direction:column; align-items:center; gap:0; margin:20px 0; }
+  .org-node { background:var(--azul); color:#fff; border-radius:8px; padding:10px 24px; text-align:center; font-size:.88rem; font-weight:600; min-width:200px; }
+  .org-node.gold { background:var(--dorado); color:var(--azul); }
+  .org-node.light { background:var(--azul-claro); }
+  .org-connector { width:2px; height:20px; background:var(--borde); margin:0 auto; }
+  .org-row { display:flex; gap:12px; justify-content:center; }
+  .org-row-connector { display:flex; justify-content:center; gap:12px; }
+  .org-row-connector .line { width:2px; height:20px; background:var(--borde); }
+
+  footer { background:var(--azul); color:rgba(255,255,255,.7); text-align:center; padding:20px; font-size:.8rem; margin-top:60px; }
+  footer strong { color:var(--dorado); }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="portada">
+  <div class="escudo">🎓</div>
+  <div class="inst">Unidad Educativa Particular</div>
+  <h1>EIGHT ACADEMY</h1>
+  <div class="linea"></div>
+  <div class="doc-title">Manual de Procesos<br>y Procedimientos</div>
+  <div class="doc-sub">Académicos y Administrativos · Período 2025-2026</div>
+  <div class="ficha">
+    <span>Código:</span><span>MP-GTH-EA-01</span>
+    <span>Departamento:</span><span>Gestión del Talento Humano</span>
+    <span>Código AMIE:</span><span>17H04507</span>
+    <span>Rectora:</span><span>Mgs. Montserrath del Pozo</span>
+    <span>Elaborado:</span><span>Enero 2025</span>
+    <span>Actualizado:</span><span>2025-2026</span>
+  </div>
+  <div class="codigo">Documento institucional de uso interno · Eight Academy © 2025</div>
+</div>
+
+<div class="contenido">
+
+<!-- TOC -->
+<div class="toc">
+  <h2>📋 Contenido</h2>
+  <ol>
+    <li><a href="#s1">Introducción</a></li>
+    <li><a href="#s2">Objetivo y Alcance</a></li>
+    <li><a href="#s3">Definiciones</a></li>
+    <li><a href="#s4">Generalidades Institucionales</a></li>
+    <li><a href="#s5">Identidad: Misión, Visión y Pilares</a></li>
+    <li><a href="#s6">Simbología de Flujogramas</a></li>
+    <li><a href="#s7">Organigrama Institucional</a></li>
+    <li><a href="#s8">Proc. Designación de Autoridades</a></li>
+    <li><a href="#s9">Procedimientos Docentes — Atrasos</a></li>
+    <li><a href="#s10">Procedimientos Docentes — Permisos</a></li>
+    <li><a href="#s11">Procedimientos Docentes — Faltas</a></li>
+    <li><a href="#s12">Enfermedad No Profesional</a></li>
+    <li><a href="#s13">Calamidad Doméstica o Fuerza Mayor</a></li>
+    <li><a href="#s14">Maternidad y Paternidad</a></li>
+    <li><a href="#s15">Aplicación de Sanciones</a></li>
+    <li><a href="#s16">Recaudación de Matrícula</a></li>
+    <li><a href="#s17">Recaudación de Pensiones</a></li>
+    <li><a href="#s18">Atención Médica</a></li>
+    <li><a href="#s19">Contratación del Servicio de Bar</a></li>
+    <li><a href="#s20">Contratación de Transporte Escolar</a></li>
+    <li><a href="#s21">Procedimientos Académicos</a></li>
+    <li><a href="#s22">Procedimientos Pedagógicos Eight Academy</a></li>
+  </ol>
+</div>
+
+<!-- S1 INTRODUCCIÓN -->
+<div class="seccion" id="s1">
+  <div class="sec-header"><div class="num">1</div><h2>Introducción</h2></div>
+  <div class="sec-body">
+    <p>El presente documento contiene el <strong>Manual de Procesos y Procedimientos Académicos y Administrativos</strong> de la <strong>Unidad Educativa Particular Eight Academy</strong>, período lectivo 2025-2026. Es una herramienta que permite a la institución garantizar la organización, la transparencia y la mejora continua de la calidad del servicio educativo.</p>
+    <p>La estructura de este manual relaciona los macroprocesos identificados en Eight Academy, los cuales están conformados por procesos y procedimientos organizados bajo los principios de la quinta revolución industrial y el modelo educativo disruptivo de la institución. La información se presenta de forma clara, con descripción de cada actividad y los responsables de su ejecución.</p>
+    <p>La estandarización de los procesos y procedimientos permite cumplir los objetivos y principios de Eight Academy, ya que determina los niveles de responsabilidad de cada funcionario en cada una de las actividades ejecutadas, facilitando el seguimiento, control y mejora continua de los procesos institucionales.</p>
+    <p>Este manual se articula plenamente con el <strong>Plan Curricular Institucional (PCI) 2025-2026</strong> y con los <strong>Estándares de Calidad Educativa del MINEDUC (Acuerdo Ministerial 091-2017)</strong>, constituyendo un instrumento normativo vivo que será revisado y actualizado anualmente.</p>
+    <div class="infobox"><strong>Vigencia:</strong> Este manual reemplaza versiones anteriores y rige a partir del inicio del período lectivo 2025-2026. Toda consulta o aclaración debe dirigirse al Departamento de Gestión del Talento Humano de Eight Academy.</div>
+  </div>
+</div>
+
+<!-- S2 OBJETIVO Y ALCANCE -->
+<div class="seccion" id="s2">
+  <div class="sec-header"><div class="num">2</div><h2>Objetivo y Alcance</h2></div>
+  <div class="sec-body">
+    <h3>Objetivo General</h3>
+    <p>Ofrecer a la comunidad educativa de Eight Academy una herramienta de trabajo que contribuya al cumplimiento eficaz y eficiente de la misión, visión, valores y objetivos institucionales, a través de procesos estandarizados que garanticen la calidad del servicio educativo y el bienestar de todos los actores institucionales.</p>
+    <h3>Objetivos Específicos</h3>
+    <ul>
+      <li>Definir de manera clara los procedimientos administrativos y académicos de Eight Academy.</li>
+      <li>Establecer niveles de responsabilidad para cada proceso institucional.</li>
+      <li>Facilitar la inducción de nuevo personal mediante documentación clara y accesible.</li>
+      <li>Garantizar la coherencia entre los procesos administrativos y la propuesta pedagógica disruptiva de Eight Academy.</li>
+      <li>Asegurar el cumplimiento de la normativa vigente: LOEI, Código del Trabajo y estándares MINEDUC.</li>
+    </ul>
+    <h3>Alcance</h3>
+    <p>Este manual está dirigido a <strong>todos los colaboradores de Eight Academy</strong>: personal directivo, docente, administrativo y de apoyo. Su aplicación es obligatoria en todas las áreas y niveles de la institución, tanto en la modalidad presencial ordinaria como en la modalidad virtual intensiva.</p>
+  </div>
+</div>
+
+<!-- S3 DEFINICIONES -->
+<div class="seccion" id="s3">
+  <div class="sec-header"><div class="num">3</div><h2>Definiciones</h2></div>
+  <div class="sec-body">
+    <table>
+      <thead><tr><th>Término</th><th>Definición</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Estructura Organizacional</strong></td><td>Distribución formal de los puestos de trabajo en Eight Academy, que define relaciones de autoridad, responsabilidad y comunicación.</td></tr>
+        <tr><td><strong>Organigrama</strong></td><td>Representación gráfica de los órganos funcionales de Eight Academy y los diferentes tipos de relaciones existentes entre ellos.</td></tr>
+        <tr><td><strong>Macroproceso</strong></td><td>Conjunto de procesos interrelacionados que contribuyen a un objetivo institucional mayor.</td></tr>
+        <tr><td><strong>Proceso</strong></td><td>Conjunto de actividades mutuamente relacionadas que transforman elementos de entrada en resultados, generando valor para la comunidad educativa.</td></tr>
+        <tr><td><strong>Procedimiento</strong></td><td>Forma especificada y documentada para llevar a cabo una actividad o un proceso de manera estandarizada.</td></tr>
+        <tr><td><strong>Manual de Procesos</strong></td><td>Herramienta que reúne los procedimientos institucionales, orientada a mejorar la organización y garantizar la calidad del servicio educativo.</td></tr>
+        <tr><td><strong>Actividad</strong></td><td>Acción específica ejecutada por una persona o área dentro de un proceso institucional.</td></tr>
+        <tr><td><strong>Control</strong></td><td>Acción que busca minimizar riesgos, verificar el cumplimiento de estándares y adoptar medidas preventivas o correctivas.</td></tr>
+        <tr><td><strong>Eficacia</strong></td><td>Capacidad de producir los resultados esperados en el tiempo determinado.</td></tr>
+        <tr><td><strong>Eficiencia</strong></td><td>Maximización de los recursos empleados para lograr los resultados institucionales.</td></tr>
+        <tr><td><strong>Diagrama de Flujo</strong></td><td>Representación gráfica de un proceso que permite observar sistemáticamente su ejecución y la secuencia lógica de actividades.</td></tr>
+        <tr><td><strong>GTH</strong></td><td>Departamento de Gestión del Talento Humano de Eight Academy.</td></tr>
+        <tr><td><strong>DECE</strong></td><td>Departamento de Consejería Estudiantil.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S4 GENERALIDADES -->
+<div class="seccion" id="s4">
+  <div class="sec-header"><div class="num">4</div><h2>Generalidades Institucionales</h2></div>
+  <div class="sec-body">
+    <h3>Naturaleza Jurídica</h3>
+    <p>La <strong>Unidad Educativa Particular Eight Academy</strong> es una institución educativa de sostenimiento particular, con personería jurídica propia, autorizada por el Ministerio de Educación del Ecuador, con Código AMIE 17H04507. Tiene su domicilio en la ciudad de Quito, provincia de Pichincha, parroquia La Concepción, en las calles Nicolás López y Pedro Taversari.</p>
+    <p>Eight Academy imparte educación en los niveles de Educación Inicial, Educación General Básica (completa) y Bachillerato General Unificado en Ciencias, en jornada matutina. Adicionalmente ofrece una modalidad extraordinaria de educación virtual intensiva para Básica Superior y Bachillerato.</p>
+    <h3>Estructura Orgánica</h3>
+    <p>La organización de Eight Academy tiene una estructura de tipo divisional, en concordancia con lo establecido en el Reglamento General a la LOEI. Comprende las siguientes instancias:</p>
+    <ul>
+      <li><strong>Junta Directiva:</strong> Máximo órgano de dirección con cargo en la política general administrativa y financiera.</li>
+      <li><strong>Consejo Ejecutivo:</strong> Máxima autoridad académica de la institución.</li>
+      <li><strong>Rectorado:</strong> La Rectora es la representante legal y primera autoridad ejecutiva.</li>
+      <li><strong>Vicerrectorado:</strong> Apoya al rectorado en la gestión académica y pedagógica.</li>
+      <li><strong>Dirección de Planificación:</strong> Coordina la planificación estratégica, PCI, PEI y procesos de mejora continua.</li>
+      <li><strong>Dirección Kids:</strong> Coordinación del nivel Inicial y primeros años de EGB.</li>
+      <li><strong>Dirección de Primaria:</strong> Coordinación de EGB elemental y media.</li>
+      <li><strong>Departamento de GTH:</strong> Gestión del Talento Humano, procesos administrativos del personal.</li>
+      <li><strong>DECE:</strong> Consejería estudiantil y apoyo socioemocional.</li>
+      <li><strong>Consejo Estudiantil:</strong> Representación del estudiantado.</li>
+    </ul>
+    <div class="alerta"><strong>Nota:</strong> Cada instancia cumple las funciones específicas determinadas en la normativa legal vigente y en el presente manual. Las instancias funcionan de manera autónoma pero coordinada, bajo las directrices del equipo directivo que se reúne semanalmente.</div>
+  </div>
+</div>
+
+<!-- S5 IDENTIDAD -->
+<div class="seccion" id="s5">
+  <div class="sec-header"><div class="num">5</div><h2>Identidad Institucional</h2></div>
+  <div class="sec-body">
+    <div class="mv-box">
+      <h3>Misión</h3>
+      <p>Formar estudiantes felices y conscientes, mediante un modelo de educación disruptiva centrado en el ser humano, que integre emprendimiento y networking, responsabilidad social y ambiental, familia, felicidad y positivismo, tecnología e intercambio cultural, desarrollando competencias académicas, socioemocionales, digitales y ciudadanas, para que sean agentes de transformación ética, creativa y comprometida con su comunidad local y global.</p>
+    </div>
+    <div class="mv-box" style="margin-top:14px;">
+      <h3>Visión</h3>
+      <p>Ser una unidad educativa referente en educación disruptiva e innovadora, reconocida por formar ciudadanos capaces de aprender, emprender y convivir en un mundo cambiante, integrando los ocho pilares de Eight Academy y los principios tecnológicos actuales, desde una pedagogía constructivista que promueve la conciencia personal y la transformación social sostenible.</p>
+    </div>
+    <h3>Los 8 Pilares</h3>
+    <p>Emprendimiento · Networking · Responsabilidad Social y Ambiental · Familia · Felicidad y Positivismo · Tecnología · Intercambio Cultural · Educación Disruptiva</p>
+    <h3>Valores Institucionales</h3>
+    <p>Solidaridad · Confianza · Familiaridad · Corresponsabilidad · Resiliencia · Flexibilidad · Amor · Honestidad</p>
+  </div>
+</div>
+
+<!-- S6 SIMBOLOGÍA -->
+<div class="seccion" id="s6">
+  <div class="sec-header"><div class="num">6</div><h2>Simbología de Flujogramas</h2></div>
+  <div class="sec-body">
+    <p>A continuación se detallan los símbolos utilizados en los diferentes flujogramas de procesos:</p>
+    <div class="simbolos">
+      <div class="simbolo"><div class="shape">⬭</div><p><strong>Inicio / Fin:</strong> Indica el comienzo o el final del proceso.</p></div>
+      <div class="simbolo"><div class="shape">▭</div><p><strong>Actividad / Tarea:</strong> Representa una acción o actividad específica dentro del proceso.</p></div>
+      <div class="simbolo"><div class="shape">◇</div><p><strong>Decisión:</strong> Punto donde el flujo se divide según una condición (Sí/No).</p></div>
+      <div class="simbolo"><div class="shape">📄</div><p><strong>Documento:</strong> Indica la generación o uso de un documento institucional.</p></div>
+      <div class="simbolo"><div class="shape">🗄️</div><p><strong>Archivo:</strong> Representa el almacenamiento de información o documentos.</p></div>
+      <div class="simbolo"><div class="shape">→</div><p><strong>Conector:</strong> Flecha que indica la dirección y secuencia del proceso.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 ORGANIGRAMA -->
+<div class="seccion" id="s7">
+  <div class="sec-header"><div class="num">7</div><h2>Organigrama Institucional</h2></div>
+  <div class="sec-body">
+    <p>La estructura organizacional de Eight Academy responde a los lineamientos del Reglamento General a la LOEI y a las necesidades de su propuesta pedagógica disruptiva:</p>
+    <div class="org">
+      <div class="org-node gold">JUNTA DIRECTIVA</div>
+      <div class="org-connector"></div>
+      <div class="org-node">RECTORADO — Mgs. Montserrath del Pozo</div>
+      <div class="org-connector"></div>
+      <div class="org-node light">CONSEJO EJECUTIVO</div>
+      <div class="org-connector"></div>
+      <div class="org-row">
+        <div class="org-node" style="font-size:.8rem;min-width:160px;">VICERRECTORADO<br><small>Mgs. Margarita Lara</small></div>
+        <div class="org-node" style="font-size:.8rem;min-width:160px;">DIR. PLANIFICACIÓN<br><small>Efrén Macías</small></div>
+        <div class="org-node" style="font-size:.8rem;min-width:160px;">GTH<br><small>Mauricio Cabrera</small></div>
+        <div class="org-node" style="font-size:.8rem;min-width:160px;">DECE</div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-row">
+        <div class="org-node" style="font-size:.78rem;min-width:150px;background:var(--azul-claro);">DIR. KIDS<br><small>Elizabeth Araque</small></div>
+        <div class="org-node" style="font-size:.78rem;min-width:150px;background:var(--azul-claro);">DIR. PRIMARIA<br><small>Estefany Catán</small></div>
+        <div class="org-node" style="font-size:.78rem;min-width:150px;background:var(--azul-claro);">COORD. BGU</div>
+        <div class="org-node" style="font-size:.78rem;min-width:150px;background:var(--azul-claro);">SECRETARÍA<br><small>Elizabeth Yancha</small></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.8rem;color:#888;margin-top:14px;">Código: MP-GTH-EA-01 · Elaborado: 2025 · Actualizado: 2025-2026</p>
+  </div>
+</div>
+
+<!-- S8 DESIGNACIÓN AUTORIDADES -->
+<div class="seccion" id="s8">
+  <div class="sec-header"><div class="num">8</div><h2>Procedimiento de Designación de Autoridades</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">👔</div>
+        <h4>Designación de Autoridades Institucionales</h4>
+        <div class="proceso-code">MP-GTH-EA-08</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Junta Directiva / Rectorado</span></div>
+          <div class="meta-item"><label>Departamento</label><span>GTH — Dirección General</span></div>
+          <div class="meta-item"><label>Frecuencia</label><span>Según necesidad institucional</span></div>
+        </div>
+        <p>Las autoridades de Eight Academy son seleccionadas mediante un proceso transparente, meritocrático y alineado con los valores y pilares institucionales. Se valora el perfil académico, humano, emprendedor y tecnológico de los candidatos, en coherencia con la propuesta educativa disruptiva de la institución.</p>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Análisis del perfil:</strong> Evaluación del record académico-profesional, humano e interrelacional del candidato, de acuerdo a los perfiles establecidos por Eight Academy, incluyendo alineación con los 8 pilares institucionales.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Solicitud de documentos:</strong> Se solicita al candidato preseleccionado la entrega de documentación completa (hoja de vida, títulos, certificados, referencias).</div></div>
+          <div class="paso-decision">¿Llegó la documentación completa? → SI: continúa. NO: notificación y cierre del proceso para ese candidato.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Validación de documentos:</strong> El Departamento de GTH verifica la autenticidad y pertinencia de la documentación recibida.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Elaboración de terna:</strong> Se construye una terna de candidatos para presentación al Consejo Ejecutivo y Junta Directiva.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Análisis y decisión final:</strong> El Consejo Ejecutivo analiza la terna y toma la decisión final de designación.</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Notificación y nombramiento:</strong> Se notifica formalmente a la Institución y se emite el nombramiento por escrito.</div></div>
+          <div class="paso"><div class="paso-num">7</div><div class="paso-txt"><strong>Posesión del cargo:</strong> Acto formal de posesión con registro en el Departamento de GTH y en el MINEDUC según corresponda.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 ATRASOS -->
+<div class="seccion" id="s9">
+  <div class="sec-header"><div class="num">9</div><h2>Procedimiento — Atrasos del Personal</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">⏰</div>
+        <h4>Gestión de Atrasos del Personal</h4>
+        <div class="proceso-code">MP-GTH-EA-09</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Trabajador / GTH</span></div>
+          <div class="meta-item"><label>Departamento</label><span>Gestión del Talento Humano</span></div>
+          <div class="meta-item"><label>Frecuencia</label><span>Cada evento</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Presentación en GTH:</strong> En caso de atraso, el trabajador debe presentarse de manera obligatoria al Departamento de GTH al iniciar la jornada.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Justificación verbal:</strong> El trabajador expone verbalmente el motivo del atraso al responsable de GTH.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Llenado de formulario:</strong> El trabajador completa el formulario "Justificación de Atrasos" con firma de responsabilidad.</div></div>
+          <div class="paso-decision">¿Se acepta la justificación? → SI: no se aplica sanción ni descuento. NO: se aplica multa según Código del Trabajo.</div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Registro:</strong> El atraso se registra en el Reporte Mensual del Biométrico y se archiva en la carpeta personal del trabajador.</div></div>
+        </div>
+        <div class="alerta"><strong>Importante:</strong> El registro biométrico es el instrumento oficial de control de asistencia en Eight Academy. Ningún atraso podrá ser omitido del reporte mensual, independientemente del resultado de la justificación.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10 PERMISOS -->
+<div class="seccion" id="s10">
+  <div class="sec-header"><div class="num">10</div><h2>Procedimiento — Permisos Justificados</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">📋</div>
+        <h4>Solicitud y Gestión de Permisos</h4>
+        <div class="proceso-code">MP-GTH-EA-10</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Trabajador / GTH / Coordinador</span></div>
+          <div class="meta-item"><label>Anticipación</label><span>24 horas mínimo</span></div>
+          <div class="meta-item"><label>Justificación</label><span>Dentro de 48 horas</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Solicitud escrita:</strong> El trabajador presenta por escrito la solicitud de permiso con mínimo 24 horas de anticipación, detallando los motivos y firmando el documento.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Sumilla del Coordinador:</strong> La solicitud es presentada al Coordinador de área e Inspección para su sumilla previa.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Planificación de reemplazo:</strong> El trabajador deja por escrito en Inspección la planificación a desarrollarse durante su ausencia.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Presentación en GTH:</strong> Se presentan todos los documentos al Departamento de GTH para la decisión final.</div></div>
+          <div class="paso-decision">¿Se acepta el permiso? → SI: se registra y se autoriza la salida. NO: el trabajador debe permanecer en su puesto de trabajo.</div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Justificación del permiso:</strong> El trabajador justifica fehacientemente el motivo del permiso dentro de las 48 horas posteriores.</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Registro:</strong> El permiso se anota en el Reporte Mensual del Biométrico y es controlado por GTH y Colecturía.</div></div>
+        </div>
+        <div class="alerta"><strong>Prohibición:</strong> Ningún trabajador podrá abandonar su lugar de trabajo sin permiso previo y escrito otorgado por el Departamento de GTH. El abandono injustificado constituirá desobediencia grave conforme al Código del Trabajo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S11 FALTAS -->
+<div class="seccion" id="s11">
+  <div class="sec-header"><div class="num">11</div><h2>Procedimiento — Faltas (Ausencia al Puesto de Trabajo)</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🚨</div>
+        <h4>Gestión de Ausencias del Personal</h4>
+        <div class="proceso-code">MP-GTH-EA-11</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Trabajador / GTH</span></div>
+          <div class="meta-item"><label>Comunicación</label><span>Lo más pronto posible</span></div>
+          <div class="meta-item"><label>Marco Legal</label><span>Código del Trabajo Ecuador</span></div>
+        </div>
+        <p>Cuando el trabajador no pueda concurrir a su lugar y puesto de trabajo por cualquier causa, deberá comunicar este particular personalmente o por intermedio de otra persona al Departamento de GTH de Eight Academy, en el menor tiempo posible.</p>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Comunicación inmediata:</strong> El trabajador comunica la ausencia al Departamento de GTH por cualquier medio disponible (llamada, mensaje, intermediario).</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Presentación de justificativo:</strong> Dentro de las 24 horas siguientes, el trabajador debe presentar el documento justificativo correspondiente (certificado médico, resolución legal u otro).</div></div>
+          <div class="paso-decision">¿Se acepta la justificación? → SI: falta justificada, no se aplica sanción. NO: se procede conforme al Código del Trabajo para faltas injustificadas.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Entrega del documento:</strong> El trabajador entrega el justificativo al Departamento de GTH con firma de responsabilidad.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Registro en biométrico:</strong> La falta se refleja en el Reporte Mensual del Biométrico con su respectiva clasificación (justificada/injustificada).</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12 ENFERMEDAD -->
+<div class="seccion" id="s12">
+  <div class="sec-header"><div class="num">12</div><h2>Procedimiento — Enfermedad No Profesional</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🏥</div>
+        <h4>Ausencia por Enfermedad No Profesional</h4>
+        <div class="proceso-code">MP-GTH-EA-12</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Trabajador / GTH</span></div>
+          <div class="meta-item"><label>Certificado</label><span>IESS o médico certificado</span></div>
+          <div class="meta-item"><label>Marco Legal</label><span>Código del Trabajo / IESS</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Comunicación:</strong> El trabajador que no pueda concurrir por enfermedad comunica esta situación al Departamento de GTH en el menor tiempo posible, de manera personal o por intermedio de otra persona. El incumplimiento de esta obligación hará presumir la inexistencia de la enfermedad.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Certificado médico:</strong> El trabajador presenta el certificado médico del IESS o de un profesional certificado, que indique: diagnóstico, nombre del médico, fecha y tiempo de reposo.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Entrega en GTH:</strong> El certificado se entrega personalmente en el Departamento de GTH al reincorporarse a sus labores.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Validación:</strong> GTH valida la información del certificado médico y determina la procedencia de la justificación.</div></div>
+          <div class="paso-decision">¿Se acepta la justificación? → SI: ausencia justificada, se procede según legislación ecuatoriana (IESS, Código del Trabajo). NO: se aplican sanciones por falta injustificada.</div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Registro:</strong> Se refleja en el Reporte Mensual del Biométrico y se archiva en la carpeta del trabajador.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13 CALAMIDAD -->
+<div class="seccion" id="s13">
+  <div class="sec-header"><div class="num">13</div><h2>Procedimiento — Calamidad Doméstica o Fuerza Mayor</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🆘</div>
+        <h4>Ausencia por Calamidad Doméstica o Fuerza Mayor</h4>
+        <div class="proceso-code">MP-GTH-EA-13</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Comunicación verbal</label><span>Inmediata</span></div>
+          <div class="meta-item"><label>Comunicación escrita</label><span>Dentro de 24 horas</span></div>
+          <div class="meta-item"><label>Aprobación</label><span>Rectora / GTH</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Comunicación verbal inmediata:</strong> El trabajador comunica personalmente o por intermediario la calamidad o fuerza mayor al Departamento de GTH, en el menor tiempo posible.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Comunicación escrita (24h):</strong> Dentro de las 24 horas de sucedido el evento, el trabajador entrega al GTH una comunicación escrita detallando: motivo, fecha, circunstancias y firma de responsabilidad.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Verificación:</strong> La calamidad o fuerza mayor es verificada a satisfacción de Eight Academy por la Rectora o el funcionario debidamente acreditado.</div></div>
+          <div class="paso-decision">¿Se aceptan los motivos? → SI: ausencia justificada, no se aplica descuento ni sanción. NO: se aplican las sanciones del Código del Trabajo.</div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Registro:</strong> La falta se anota en el Reporte Mensual del Biométrico con su respectiva clasificación.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S14 MATERNIDAD / PATERNIDAD -->
+<div class="seccion" id="s14">
+  <div class="sec-header"><div class="num">14</div><h2>Procedimiento — Maternidad y Paternidad</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">👶</div>
+        <h4>Licencia por Maternidad y Paternidad</h4>
+        <div class="proceso-code">MP-GTH-EA-14</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Licencia maternidad</label><span>12 semanas con remuneración</span></div>
+          <div class="meta-item"><label>Licencia paternidad</label><span>Según Código del Trabajo</span></div>
+          <div class="meta-item"><label>Marco Legal</label><span>Código del Trabajo / IESS</span></div>
+        </div>
+        <h4>Maternidad</h4>
+        <p>Toda docente o trabajadora tiene derecho a licencia con remuneración de <strong>doce (12) semanas</strong> por el nacimiento de su hija o hijo. La ausencia se justifica mediante certificado médico del IESS que indique la fecha probable del parto o la fecha en que ocurrió.</p>
+        <div class="flujo">
+          <h4>Flujo Maternidad</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt">Reportar el embarazo al Departamento de GTH con el certificado médico del IESS.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt">Presentar el certificado médico con fecha probable o confirmada de parto al GTH.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt">Tomar el reposo de 12 semanas indicado por la ley y el médico tratante.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt">Registrar la licencia en el Reporte Mensual del Biométrico. Coordinar el reemplazo pedagógico con Vicerrectorado.</div></div>
+        </div>
+        <h4>Paternidad</h4>
+        <p>El trabajador presenta el certificado médico o documento que acredite el nacimiento de su hijo/a al Departamento de GTH dentro de los <strong>3 días</strong> contados a partir del nacimiento.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15 SANCIONES -->
+<div class="seccion" id="s15">
+  <div class="sec-header"><div class="num">15</div><h2>Procedimiento — Aplicación de Sanciones</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">⚖️</div>
+        <h4>Aplicación de Sanciones Disciplinarias</h4>
+        <div class="proceso-code">MP-GTH-EA-15</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Rectora / GTH</span></div>
+          <div class="meta-item"><label>Notificación</label><span>Escrita y personal</span></div>
+          <div class="meta-item"><label>Marco Legal</label><span>Código del Trabajo / Reglamento Interno</span></div>
+        </div>
+        <p>En caso de incumplimiento del Código del Trabajo, Reglamento Interno de Trabajo y demás normas pertinentes, Eight Academy sancionará al trabajador considerando: gravedad, reincidencia, antecedentes laborales y condiciones particulares del caso, a decisión de la Rectora.</p>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Identificación del incumplimiento:</strong> El GTH o el área directiva detecta el incumplimiento de la normativa. Se documentan los hechos con evidencias.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Notificación escrita:</strong> La Rectora o su delegado emite una comunicación escrita de sanción, entregada personalmente al trabajador.</div></div>
+          <div class="paso-decision">¿El colaborador firma el recibido? → SI: se archiva el original firmado. NO: se entrega en presencia de un testigo que certifique la entrega.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Archivo:</strong> La sanción se archiva en la carpeta personal del trabajador. El original al infractor, copia al archivo GTH.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Derecho de revisión:</strong> Si el trabajador considera la sanción injusta, puede acudir con argumentos valederos ante las autoridades institucionales para que se estudie el caso.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Seguimiento:</strong> GTH realiza seguimiento al comportamiento del trabajador para evaluar cambios y emitir informes de evaluación.</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Terminación del contrato:</strong> Si persisten las faltas graves, se procede al trámite de visto bueno ante la autoridad del trabajo según Art. 172 del Código del Trabajo.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S16 MATRÍCULA -->
+<div class="seccion" id="s16">
+  <div class="sec-header"><div class="num">16</div><h2>Procedimiento — Recaudación de Matrícula</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">📝</div>
+        <h4>Recaudación de Matrícula — Estudiantes Nuevos y Antiguos</h4>
+        <div class="proceso-code">MP-ADM-EA-16</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Colecturía / Secretaría</span></div>
+          <div class="meta-item"><label>Departamento</label><span>Administrativo-Financiero</span></div>
+          <div class="meta-item"><label>Periodo</label><span>Inicio año lectivo</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Recepción de carpeta:</strong> Secretaría recibe la carpeta completa con documentos del estudiante (partida, fotos, certificados de notas anteriores, C.I. del representante).</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Ficha de datos:</strong> Se entrega al representante el formulario de datos para completar y adjuntar copia de C.I. o RUC.</div></div>
+          <div class="paso-decision">¿La información de la ficha es correcta y completa? → SI: continúa el proceso. NO: se solicita corrección o documentos adicionales.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Información de pago:</strong> Se informa al representante sobre la forma de pago, valores de matrícula y el calendario establecido por las autoridades de Eight Academy.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Ingreso al sistema:</strong> Se ingresan los datos del estudiante y representante al sistema institucional.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Pago bancario:</strong> El representante realiza el pago según el calendario establecido por Eight Academy.</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Verificación y facturación:</strong> Se verifican los pagos y se generan las facturas electrónicas correspondientes.</div></div>
+          <div class="paso"><div class="paso-num">7</div><div class="paso-txt"><strong>Entrega de facturas:</strong> Facturas entregadas al representante con firma de recibido conforme.</div></div>
+          <div class="paso"><div class="paso-num">8</div><div class="paso-txt"><strong>Registro contable y archivo:</strong> Registro contable de la transacción y archivo de documentos por duplicado (Secretaría/Colecturía).</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S17 PENSIONES -->
+<div class="seccion" id="s17">
+  <div class="sec-header"><div class="num">17</div><h2>Procedimiento — Recaudación de Pensiones</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">💳</div>
+        <h4>Recaudación Mensual de Pensiones</h4>
+        <div class="proceso-code">MP-ADM-EA-17</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Colecturía</span></div>
+          <div class="meta-item"><label>Frecuencia</label><span>Mensual</span></div>
+          <div class="meta-item"><label>Sistema</label><span>Sistema financiero institucional</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Facturación mensual:</strong> Colecturía factura la pensión del mes corriente según base de datos de estudiantes matriculados.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Archivo de cuentas por cobrar:</strong> Se genera el archivo de cuentas por cobrar según la facturación efectuada.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Revisión de pagos:</strong> Se revisan los pagos por ventanilla y débitos autorizados a cuentas del representante para actualización en el sistema.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Envío al banco:</strong> Se envía al banco el listado de cobro según el calendario establecido por Eight Academy.</div></div>
+          <div class="paso-decision">¿Se recibieron pagos? → SI: se validan, facturan y registran contablemente. NO: se genera reporte de cartera vencida.</div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Verificación diaria:</strong> Colecturía verifica la recaudación diaria para actualizar la cartera del representante.</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Reporte de cartera vencida:</strong> Emisión oportuna de reporte a autoridades, inspección y tutores de los estudiantes morosos.</div></div>
+          <div class="paso"><div class="paso-num">7</div><div class="paso-txt"><strong>Notificación a deudores:</strong> Comunicación formal al representante económico sobre el pago pendiente. Publicación interna de cartera vencida a partir del segundo mes vencido.</div></div>
+          <div class="paso"><div class="paso-num">8</div><div class="paso-txt"><strong>Registro contable y archivo:</strong> Registro contable y archivo de facturas y documentos de soporte por duplicado.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S18 ATENCIÓN MÉDICA -->
+<div class="seccion" id="s18">
+  <div class="sec-header"><div class="num">18</div><h2>Procedimiento — Atención Médica a Estudiantes</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🩺</div>
+        <h4>Atención Médica en el Departamento de Salud</h4>
+        <div class="proceso-code">MP-ACA-EA-18</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Médico / Enfermería / DECE</span></div>
+          <div class="meta-item"><label>Horario</label><span>Durante jornada escolar</span></div>
+          <div class="meta-item"><label>Documentos</label><span>Autorización salida / Justificación médica</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Recepción del estudiante:</strong> El estudiante es recibido en el Departamento Médico de Eight Academy con registro en el Parte Diario.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Atención primaria:</strong> Se brinda atención médica primaria y se evalúa la gravedad del caso.</div></div>
+          <div class="paso-decision">¿Es un caso de emergencia? → SI: se llama al Seguro Médico, se solicita ambulancia, se traslada al hospital y se informa al representante de inmediato. NO: continúa el proceso regular.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Comunicación al representante:</strong> Si el caso requiere atención especializada, se comunica al representante para que acuda a retirar al estudiante. Se coordina con recepción para autorizar el ingreso del representante.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Emisión de documentos:</strong> Se emite el documento de <em>Autorización de Salida</em> (entregado a recepción) y la <em>Justificación Médica</em> (entregada al estudiante para su tutora/leccionario).</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Registro:</strong> El caso se registra en el Parte Diario del Departamento Médico. La tutora adjunta la justificación al leccionario del curso.</div></div>
+        </div>
+        <div class="alerta"><strong>Eight Academy garantiza:</strong> Atención médica inmediata, protocolo de emergencias activo, comunicación oportuna con la familia y registro de todas las atenciones, en coherencia con el pilar institucional de <em>Familia</em> y <em>Felicidad y Positivismo</em>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S19 BAR -->
+<div class="seccion" id="s19">
+  <div class="sec-header"><div class="num">19</div><h2>Procedimiento — Contratación del Servicio de Bar</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🍎</div>
+        <h4>Contratación del Servicio de Bar Escolar</h4>
+        <div class="proceso-code">MP-ADM-EA-19</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Comisión / Rectora</span></div>
+          <div class="meta-item"><label>Periodo</label><span>2do quimestre del año lectivo anterior</span></div>
+          <div class="meta-item"><label>Firma contrato</label><span>Solo la Rectora</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Conformación de la Comisión:</strong> La Rectora designa la Comisión encargada de la contratación del bar escolar, que incluye personal directivo, representantes de padres de familia y un miembro del DECE.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Convocatoria:</strong> La Presidenta de la Comisión realiza la convocatoria durante el segundo quimestre. Puede ser mediante publicación en medios o por el medio que la comisión determine.</div></div>
+          <div class="paso-decision">¿Existen postulantes? → SI: se reciben ofertas. NO: se realiza nueva convocatoria en medios masivos.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Presentación de ofertas:</strong> Los interesados presentan ofertas en sobre cerrado dentro del plazo, lugar y día previstos en la convocatoria.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Evaluación y adjudicación:</strong> La Comisión evalúa las propuestas y adjudica la que cumpla con la legislación ecuatoriana (normativa de bares escolares MINEDUC) y responda a los intereses de la comunidad educativa de Eight Academy.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Suscripción del contrato:</strong> La Rectora suscribe el Contrato de Servicios de Administración del Bar Escolar. Ningún otro funcionario está autorizado para firmar; en caso de hacerlo, la contratación será nula y se aplicará sanción por falta grave.</div></div>
+        </div>
+        <div class="infobox"><strong>Estándar Eight Academy:</strong> El bar escolar debe ofrecer productos saludables, nutritivos y alineados con el pilar de <em>Felicidad y Positivismo</em> y la formación integral del estudiante. Se priorizarán proveedores con prácticas sostenibles (pilar de Responsabilidad Social y Ambiental).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S20 TRANSPORTE -->
+<div class="seccion" id="s20">
+  <div class="sec-header"><div class="num">20</div><h2>Procedimiento — Contratación de Transporte Escolar</h2></div>
+  <div class="sec-body">
+    <div class="proceso">
+      <div class="proceso-header">
+        <div class="icon">🚌</div>
+        <h4>Contratación del Servicio de Transporte Escolar</h4>
+        <div class="proceso-code">MP-ADM-EA-20</div>
+      </div>
+      <div class="proceso-body">
+        <div class="meta">
+          <div class="meta-item"><label>Responsable</label><span>Comisión (Rectora + Presidente PP.FF.)</span></div>
+          <div class="meta-item"><label>Periodo</label><span>2do quimestre del año lectivo anterior</span></div>
+          <div class="meta-item"><label>Firma contrato</label><span>Solo la Rectora</span></div>
+        </div>
+        <div class="flujo">
+          <h4>Flujo del Procedimiento</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Conformación de la Comisión:</strong> La Comisión está integrada por la Rectora (quien la preside) y el Presidente del Comité Central de Padres de Familia de Eight Academy.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Convocatoria:</strong> La Presidenta de la Comisión realiza la convocatoria pública durante el segundo quimestre del año lectivo en curso.</div></div>
+          <div class="paso-decision">¿Existen postulantes? → SI: se reciben ofertas en sobre cerrado. NO: nueva convocatoria en medios masivos.</div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Evaluación:</strong> La Comisión evalúa las propuestas verificando: cumplimiento legal (permisos ANT, seguros), seguridad del vehículo, experiencia del operador y tarifa acorde a la realidad económica de la comunidad de Eight Academy.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Adjudicación:</strong> Se selecciona la oferta que mejor responda a los intereses de la comunidad educativa y la normativa vigente.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Suscripción del contrato:</strong> La Rectora suscribe el contrato de transporte. Cualquier firma no autorizada implica nulidad y sanción por falta grave.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S21 PROCEDIMIENTOS ACADÉMICOS -->
+<div class="seccion" id="s21">
+  <div class="sec-header"><div class="num">21</div><h2>Procedimientos Académicos Regulatorios</h2></div>
+  <div class="sec-body">
+    <h3>Año Escolar</h3>
+    <p>Eight Academy da estricto cumplimiento a lo determinado por el Ministerio de Educación para el sistema nacional de educación, régimen Sierra. El año lectivo comprende <strong>200 días laborables</strong> divididos en dos quimestres. El cronograma institucional se establece conforme al calendario del MINEDUC e incluye: inicio y fin de quimestres, fechas de evaluaciones quimestrales, recuperación pedagógica, vacaciones escolares y eventos institucionales propios de la propuesta de Eight Academy.</p>
+
+    <h3>Jornada Escolar</h3>
+    <table>
+      <thead><tr><th>Nivel</th><th>Horario de Entrada</th><th>Horario de Salida</th></tr></thead>
+      <tbody>
+        <tr><td>Inicial II y 1ro EGB (jornada regular)</td><td>7:30</td><td>12:30</td></tr>
+        <tr><td>2do EGB a 3ro BGU (jornada regular)</td><td>6:55</td><td>13:40</td></tr>
+        <tr><td>Período de adaptación Inicial II</td><td>8:00</td><td>10:30</td></tr>
+        <tr><td>Evaluaciones quimestrales (Inicial II y 1ro)</td><td>7:30</td><td>10:30</td></tr>
+        <tr><td>Evaluaciones quimestrales (2do a 3ro BGU)</td><td>6:55</td><td>11:30</td></tr>
+        <tr><td>Actividades extracurriculares / Proyectos</td><td>14:00</td><td>16:00</td></tr>
+      </tbody>
+    </table>
+
+    <table style="margin-top:14px;">
+      <thead><tr><th>Personal</th><th>Hora de Ingreso</th><th>Hora de Salida</th></tr></thead>
+      <tbody>
+        <tr><td>Docente</td><td>6:45</td><td>15:00</td></tr>
+        <tr><td>Administrativo</td><td>7:00</td><td>15:00</td></tr>
+        <tr><td>Personal de apoyo</td><td>Variable</td><td>Variable</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Distribución de la Jornada Escolar</h3>
+    <ul>
+      <li><strong>Inicial II y 1ro EGB:</strong> Jornada semanal de 35 horas, 7 períodos de 30 minutos diarios. Incluye 15 min de actividades iniciales, 30 min de recreación y 30 min de actividades nutricionales.</li>
+      <li><strong>2do EGB en adelante:</strong> Jornada semanal de 40-45 horas según nivel, distribuidas en períodos de 40-45 minutos.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S22 PROCEDIMIENTOS PEDAGÓGICOS EIGHT ACADEMY -->
+<div class="seccion" id="s22">
+  <div class="sec-header"><div class="num">22</div><h2>Procedimientos Pedagógicos Diferenciados — Eight Academy</h2></div>
+  <div class="sec-body">
+    <p>Los siguientes procedimientos son exclusivos de la propuesta pedagógica disruptiva de Eight Academy y complementan la normativa MINEDUC con los 8 pilares institucionales:</p>
+
+    <div class="proceso">
+      <div class="proceso-header"><div class="icon">🚀</div><h4>Procedimiento — Hackatón Institucional</h4><div class="proceso-code">MP-ACA-EA-22A</div></div>
+      <div class="proceso-body">
+        <p>Evento anual de innovación y emprendimiento para estudiantes de Bachillerato. Los equipos proponen, desarrollan y presentan soluciones a problemas reales en 48 horas.</p>
+        <div class="flujo">
+          <h4>Etapas del Proceso</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Convocatoria:</strong> Dirección académica lanza la convocatoria con el reto o tema a resolver (2 meses antes).</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Formación de equipos:</strong> Equipos de 3-5 estudiantes de diferentes cursos (interdisciplinariedad como principio).</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Mentoring previo:</strong> Sesiones de asesoría con docentes y mentores externos (networking).</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Desarrollo del prototipo:</strong> 48 horas de trabajo intensivo para construir la solución.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Pitch ante panel:</strong> Presentación de 5-10 minutos ante panel de evaluadores (directivos, docentes, actores externos).</div></div>
+          <div class="paso"><div class="paso-num">6</div><div class="paso-txt"><strong>Premiación y retroalimentación:</strong> Entrega de reconocimientos y retroalimentación formativa para todos los equipos.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proceso" style="margin-top:16px;">
+      <div class="proceso-header"><div class="icon">🌍</div><h4>Procedimiento — ONU Liderazgo</h4><div class="proceso-code">MP-ACA-EA-22B</div></div>
+      <div class="proceso-body">
+        <p>Simulación del modelo de Naciones Unidas que desarrolla oratoria, argumentación, inglés diplomático, liderazgo y conciencia global.</p>
+        <div class="flujo">
+          <h4>Etapas del Proceso</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Asignación de países y comités:</strong> Cada estudiante recibe el país y comité que representará (Seguridad, ECOSOC, Derechos Humanos, etc.).</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Investigación:</strong> Cada delegado investiga la posición de su país frente al tema del comité.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Redacción de resoluciones:</strong> Los delegados redactan y presentan borradores de resolución en inglés.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Sesión de debate:</strong> Debate formal con protocolo diplomático, mociones y votaciones.</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Evaluación:</strong> Rúbricas de oratoria, argumentación, conocimiento del tema e inglés. Reconocimiento al mejor delegado.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proceso" style="margin-top:16px;">
+      <div class="proceso-header"><div class="icon">🌱</div><h4>Procedimiento — Zoo Botánica</h4><div class="proceso-code">MP-ACA-EA-22C</div></div>
+      <div class="proceso-body">
+        <p>El campus Zoo Botánica es el laboratorio vivencial de aprendizaje de Eight Academy. Integra ciencias, matemáticas, arte y conciencia ambiental en experiencias prácticas al aire libre.</p>
+        <div class="flujo">
+          <h4>Protocolo de Uso</h4>
+          <div class="paso"><div class="paso-num">1</div><div class="paso-txt"><strong>Planificación docente:</strong> El docente incluye la actividad en Zoo Botánica en su planificación de unidad didáctica, con objetivos, destrezas y criterios de evaluación claros.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-txt"><strong>Coordinación:</strong> Se coordina fecha, horario y grupo con la Dirección Kids o Primaria según corresponda.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-txt"><strong>Preparación del espacio:</strong> El personal de apoyo prepara el área asignada con materiales y condiciones de seguridad.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-txt"><strong>Actividad vivencial:</strong> El docente guía la experiencia con metodología activa (ABP, observación científica, metacognición).</div></div>
+          <div class="paso"><div class="paso-num">5</div><div class="paso-txt"><strong>Evaluación y registro:</strong> Se evalúa mediante rúbrica o portafolio. El docente registra la actividad en el leccionario.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="infobox" style="margin-top:20px;">
+      <strong>Articulación con el PCI:</strong> Todos los procedimientos pedagógicos de Eight Academy se articulan con el Plan Curricular Institucional 2025-2026, los Estándares de Calidad MINEDUC (AM 091-2017) y los 8 Pilares Institucionales. Este manual se actualiza anualmente junto con el PCI.
+    </div>
+  </div>
+</div>
+
+</div><!-- fin contenido -->
+
+<footer>
+  <p><strong>UNIDAD EDUCATIVA PARTICULAR EIGHT ACADEMY</strong></p>
+  <p>Manual de Procesos y Procedimientos Académicos y Administrativos · Código: MP-GTH-EA-01 · Período 2025-2026</p>
+  <p>AMIE: 17H04507 · Quito, Ecuador · rectorado@eightacademy.edu.ec · https://eightacademy.edu.ec</p>
+  <p style="margin-top:8px;font-size:.75rem;color:rgba(255,255,255,.4);">Documento de uso interno · Elaborado conforme al Reglamento General a la LOEI, Código del Trabajo y Estándares de Calidad MINEDUC 2017</p>
+</footer>
+
+</body>
+</html>

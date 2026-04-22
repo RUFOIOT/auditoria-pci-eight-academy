@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCI 2025-2026 — Unidad Educativa Particular Eight Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+  :root {
+    --azul: #1a3a5c;
+    --dorado: #f5a623;
+    --azul-claro: #2c5282;
+    --gris: #f7f8fa;
+    --gris-borde: #e2e8f0;
+    --texto: #2d3748;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Open Sans', Arial, sans-serif; color: var(--texto); background: #fff; font-size: 11pt; line-height: 1.7; }
+
+  /* PRINT */
+  @media print {
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    body { font-size: 10pt; }
+    .portada { page-break-after: always; }
+  }
+
+  /* PORTADA */
+  .portada {
+    background: linear-gradient(160deg, var(--azul) 60%, #0f2440 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+  }
+  .portada::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .portada .escudo {
+    width: 100px; height: 100px;
+    background: var(--dorado);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 30px rgba(245,166,35,0.4);
+    position: relative;
+  }
+  .portada h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+  .portada .subtitulo { font-size: 1rem; color: var(--dorado); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; font-weight: 600; }
+  .portada .doc-title { font-family: 'Playfair Display', Georgia, serif; font-size: 3rem; font-weight: 700; color: var(--dorado); margin-bottom: 10px; line-height: 1.2; }
+  .portada .doc-sub { font-size: 1.3rem; color: rgba(255,255,255,0.85); margin-bottom: 50px; }
+  .portada .ficha {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 24px 40px;
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 8px 24px;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  .portada .ficha span:nth-child(odd) { color: var(--dorado); font-weight: 600; }
+  .portada .ficha span:nth-child(even) { color: rgba(255,255,255,0.9); }
+  .portada .linea-dorada { width: 80px; height: 3px; background: var(--dorado); margin: 30px auto; border-radius: 2px; }
+
+  /* LAYOUT */
+  .contenido { max-width: 900px; margin: 0 auto; padding: 40px 30px; }
+
+  /* TOC */
+  .toc { background: var(--gris); border-left: 4px solid var(--dorado); border-radius: 8px; padding: 30px 35px; margin: 40px 0; }
+  .toc h2 { font-family: 'Playfair Display', Georgia, serif; color: var(--azul); font-size: 1.3rem; margin-bottom: 20px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin-bottom: 6px; }
+  .toc a { color: var(--azul-claro); text-decoration: none; font-size: 0.95rem; }
+  .toc a:hover { color: var(--dorado); text-decoration: underline; }
+
+  /* SECCIONES */
+  .seccion { margin-bottom: 60px; }
+  .seccion-header {
+    background: var(--azul);
+    color: #fff;
+    padding: 16px 28px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+  .seccion-header .num {
+    background: var(--dorado);
+    color: var(--azul);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .seccion-header h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; font-weight: 700; letter-spacing: 0.5px; }
+  .seccion-body {
+    border: 1px solid var(--gris-borde);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 30px;
+    background: #fff;
+  }
+
+  /* TIPOGRAFÍA */
+  h3 { font-family: 'Playfair Display', Georgia, serif; color: var(--azul); font-size: 1.15rem; margin: 24px 0 10px; border-bottom: 2px solid var(--dorado); padding-bottom: 6px; display: inline-block; }
+  h4 { color: var(--azul-claro); font-size: 1rem; margin: 18px 0 8px; font-weight: 700; }
+  p { margin-bottom: 12px; text-align: justify; }
+  ul, ol { margin: 10px 0 14px 22px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--azul); }
+
+  /* CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--gris);
+    border-top: 3px solid var(--dorado);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .card h4 { color: var(--azul); font-size: 0.95rem; margin: 0 0 6px; }
+  .card p { font-size: 0.85rem; margin: 0; color: #555; }
+
+  /* MISIÓN/VISIÓN */
+  .mv-box {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--azul-claro) 100%);
+    color: #fff;
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 16px 0;
+  }
+  .mv-box h3 { color: var(--dorado); border-bottom-color: var(--dorado); font-size: 1.1rem; margin-top: 0; }
+  .mv-box p { color: rgba(255,255,255,0.92); text-align: justify; margin: 0; }
+
+  /* PILARES */
+  .pilares { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .pilar {
+    background: var(--gris);
+    border-radius: 8px;
+    padding: 16px 12px;
+    text-align: center;
+    border-bottom: 3px solid var(--azul);
+    transition: transform 0.2s;
+  }
+  .pilar .num-pilar { background: var(--azul); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; margin: 0 auto 10px; }
+  .pilar p { font-size: 0.82rem; font-weight: 600; color: var(--azul); margin: 0; }
+
+  /* VALORES */
+  .valores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+  .valor {
+    background: var(--gris);
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+    border-left: 3px solid var(--dorado);
+  }
+  .valor h4 { color: var(--azul); font-size: 0.88rem; margin: 0 0 4px; }
+  .valor p { font-size: 0.75rem; color: #666; margin: 0; }
+
+  /* TABLA */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  thead { background: var(--azul); color: #fff; }
+  thead th { padding: 10px 12px; text-align: left; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.3px; }
+  tbody tr:nth-child(even) { background: var(--gris); }
+  tbody td { padding: 8px 12px; border-bottom: 1px solid var(--gris-borde); vertical-align: top; }
+  tbody td:last-child { text-align: center; font-weight: 700; color: var(--azul); }
+  .total-row { background: var(--dorado) !important; font-weight: 700; color: var(--azul); }
+  .total-row td { color: var(--azul) !important; border-top: 2px solid var(--azul); }
+  .nivel-header td { background: var(--azul-claro); color: #fff; font-weight: 700; font-size: 0.9rem; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+  .kpi-card { background: var(--gris); border-radius: 8px; padding: 16px; border-top: 3px solid var(--azul); }
+  .kpi-card .pct { font-size: 1.8rem; font-weight: 700; color: var(--dorado); line-height: 1; }
+  .kpi-card p { font-size: 0.78rem; color: #555; margin: 4px 0 0; }
+
+  /* CITA */
+  .cita { border-left: 4px solid var(--dorado); padding: 14px 20px; background: var(--gris); border-radius: 0 8px 8px 0; margin: 16px 0; font-style: italic; color: #444; }
+
+  /* ALERTA / INFO BOX */
+  .infobox { background: #ebf4ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .infobox strong { color: var(--azul-claro); }
+
+  /* FOOTER */
+  footer { background: var(--azul); color: rgba(255,255,255,0.7); text-align: center; padding: 20px; font-size: 0.8rem; margin-top: 60px; }
+  footer strong { color: var(--dorado); }
+
+  /* DATOS GENERALES TABLE */
+  .datos-table { width: 100%; }
+  .datos-table td { padding: 9px 14px; border-bottom: 1px solid var(--gris-borde); vertical-align: top; }
+  .datos-table td:first-child { font-weight: 700; color: var(--azul); width: 35%; background: var(--gris); }
+  .datos-table td:last-child { text-align: left !important; }
+
+  /* METODOLOGÍA */
+  .metodo-card { background: var(--gris); border-radius: 8px; padding: 18px 20px; margin-bottom: 12px; border-left: 4px solid var(--azul); }
+  .metodo-card h4 { color: var(--azul); margin-top: 0; margin-bottom: 6px; }
+  .metodo-card p { font-size: 0.9rem; margin: 0; }
+
+  /* PROYECTO */
+  .proyecto { background: var(--gris); border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; border-top: 4px solid var(--dorado); }
+  .proyecto h4 { color: var(--azul); margin-bottom: 6px; }
+
+  @media print {
+    .seccion { page-break-inside: avoid; }
+    .pilares { grid-template-columns: repeat(4,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PORTADA ===== -->
+<div class="portada">
+  <div class="escudo">🎓</div>
+  <div class="subtitulo">Unidad Educativa Particular</div>
+  <h1>EIGHT ACADEMY</h1>
+  <div class="linea-dorada"></div>
+  <div class="doc-title">Plan Curricular<br>Institucional</div>
+  <div class="doc-sub">Período Lectivo 2025 – 2026</div>
+  <div class="ficha">
+    <span>Código AMIE:</span><span>17H04507</span>
+    <span>Régimen:</span><span>Sierra</span>
+    <span>Sostenimiento:</span><span>Particular</span>
+    <span>Jornada:</span><span>Matutina</span>
+    <span>Rectora:</span><span>Mgs. Montserrath del Pozo</span>
+    <span>Ciudad:</span><span>Quito, Pichincha</span>
+    <span>Estudiantes:</span><span>941</span>
+    <span>Fecha de elaboración:</span><span>Enero 2025</span>
+  </div>
+</div>
+
+<!-- ===== CONTENIDO ===== -->
+<div class="contenido">
+
+<!-- TABLA DE CONTENIDOS -->
+<div class="toc">
+  <h2>📋 Tabla de Contenidos</h2>
+  <ol>
+    <li><a href="#s1">Datos Generales de la Institución</a></li>
+    <li><a href="#s2">Presentación Institucional</a></li>
+    <li><a href="#s3">Marco Legal y Normativo</a></li>
+    <li><a href="#s4">Identidad Institucional</a></li>
+    <li><a href="#s5">Fundamentación Filosófica y Pedagógica</a></li>
+    <li><a href="#s6">Perfil de Salida del Bachiller Ecuatoriano</a></li>
+    <li><a href="#s7">Perfiles de Salida Institucionales por Nivel</a></li>
+    <li><a href="#s8">Ejes Transversales Institucionales</a></li>
+    <li><a href="#s9">Estructura Curricular y Carga Horaria</a></li>
+    <li><a href="#s10">Metodología Institucional</a></li>
+    <li><a href="#s11">Sistema de Evaluación</a></li>
+    <li><a href="#s12">Atención a la Diversidad e Inclusión</a></li>
+    <li><a href="#s13">Proyectos Institucionales</a></li>
+    <li><a href="#s14">Oferta Educativa Extraordinaria</a></li>
+    <li><a href="#s15">Gestión Pedagógica y Seguimiento</a></li>
+    <li><a href="#s16">Planes de Mejora Institucional</a></li>
+  </ol>
+</div>
+
+<!-- S1 DATOS GENERALES -->
+<div class="seccion" id="s1">
+  <div class="seccion-header"><div class="num">1</div><h2>Datos Generales de la Institución</h2></div>
+  <div class="seccion-body">
+    <table class="datos-table">
+      <tr><td>Nombre de la Institución</td><td>Unidad Educativa Particular Eight Academy</td></tr>
+      <tr><td>Código AMIE</td><td>17H04507</td></tr>
+      <tr><td>Representante Legal</td><td>Montserrath del Pozo</td></tr>
+      <tr><td>Rectora</td><td>Mgs. Montserrath del Pozo</td></tr>
+      <tr><td>Vicerrectora</td><td>Mgs. Margarita Lara</td></tr>
+      <tr><td>Director de Planificación</td><td>Efrén Macías</td></tr>
+      <tr><td>Directora Kids</td><td>Elizabeth Araque</td></tr>
+      <tr><td>Directora de Primaria</td><td>Estefany Catán</td></tr>
+      <tr><td>Sostenimiento</td><td>Particular</td></tr>
+      <tr><td>Régimen</td><td>Sierra</td></tr>
+      <tr><td>Jornada</td><td>Matutina</td></tr>
+      <tr><td>Modalidad</td><td>Presencial (+ Extraordinaria Virtual Intensiva)</td></tr>
+      <tr><td>Oferta Educativa Ordinaria</td><td>Educación Inicial · Educación General Básica · Bachillerato General Unificado en Ciencias</td></tr>
+      <tr><td>Provincia / Cantón / Parroquia</td><td>Pichincha / Quito / La Concepción</td></tr>
+      <tr><td>Dirección</td><td>Nicolás López y Pedro Taversari</td></tr>
+      <tr><td>Teléfono</td><td>096 292 3722</td></tr>
+      <tr><td>Correo electrónico</td><td>rectorado@eightacademy.edu.ec</td></tr>
+      <tr><td>Página web</td><td>https://eightacademy.edu.ec</td></tr>
+      <tr><td>Zona / Distrito / Circuito</td><td>9 / 5 / 3</td></tr>
+      <tr><td>Número de estudiantes</td><td>941</td></tr>
+      <tr><td>Número de docentes</td><td>52 (9 hombres · 43 mujeres)</td></tr>
+      <tr><td>Período lectivo</td><td>2025 – 2026</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- S2 PRESENTACIÓN -->
+<div class="seccion" id="s2">
+  <div class="seccion-header"><div class="num">2</div><h2>Presentación Institucional</h2></div>
+  <div class="seccion-body">
+    <h3>Mensaje de la Rectora</h3>
+    <p>El presente Plan Curricular Institucional (PCI) constituye el instrumento técnico-pedagógico que orienta y organiza todos los procesos de enseñanza-aprendizaje de la Unidad Educativa Particular Eight Academy durante el período lectivo 2025-2026. Este documento refleja la identidad, filosofía y propuesta educativa diferenciadora de nuestra institución, articulando de manera coherente los lineamientos del Ministerio de Educación del Ecuador con nuestra propuesta pedagógica disruptiva e innovadora.</p>
+    <p>Eight Academy es una institución educativa que apuesta por un modelo educativo transformador, fundamentado en ocho pilares esenciales que promueven el bienestar emocional, el desempeño académico de excelencia y la formación de ciudadanos del siglo XXI. Nuestra propuesta va más allá del currículo convencional: integramos el emprendimiento, la tecnología, el intercambio cultural, la responsabilidad social y la felicidad como elementos constitutivos del proceso educativo.</p>
+    <p>Este PCI ha sido construido de manera participativa, incorporando los aportes del equipo directivo, docentes, padres de familia y estudiantes, y se alinea plenamente con los Estándares de Calidad Educativa del Ministerio de Educación, establecidos mediante Acuerdo Ministerial 091-2017. Representa nuestro compromiso con la mejora continua, la equidad y la excelencia académica.</p>
+    <p>Invitamos a toda la comunidad educativa a apropiarse de este instrumento, a vivirlo con compromiso y a hacerlo realidad en cada aula, en cada proyecto y en cada interacción pedagógica. Juntos estamos construyendo la educación del futuro.</p>
+    <p style="margin-top:20px;"><strong>Mgs. Montserrath del Pozo</strong><br><em>Rectora — Unidad Educativa Particular Eight Academy</em></p>
+  </div>
+</div>
+
+<!-- S3 MARCO LEGAL -->
+<div class="seccion" id="s3">
+  <div class="seccion-header"><div class="num">3</div><h2>Marco Legal y Normativo</h2></div>
+  <div class="seccion-body">
+    <p>El presente PCI se elabora en estricta concordancia con el ordenamiento jurídico ecuatoriano vigente en materia educativa. Los instrumentos legales que sustentan y orientan este documento son:</p>
+    <ul>
+      <li><strong>Constitución de la República del Ecuador (2008):</strong> Art. 26 — La educación es derecho de las personas a lo largo de la vida. Art. 27 — La educación debe ser participativa, obligatoria, intercultural, democrática, incluyente, diversa, de calidad y calidez.</li>
+      <li><strong>Ley Orgánica de Educación Intercultural — LOEI (2011):</strong> Establece los principios y fines del sistema educativo ecuatoriano, los derechos y obligaciones de los actores educativos, y los lineamientos para la gestión pedagógica institucional.</li>
+      <li><strong>Reglamento General a la LOEI:</strong> Regula la aplicación de la LOEI, incluyendo la estructura del sistema educativo, la planificación curricular, la evaluación estudiantil y los procesos de gestión institucional.</li>
+      <li><strong>Currículo Nacional Vigente (MINEDUC):</strong> Define los objetivos, destrezas con criterios de desempeño, criterios e indicadores de evaluación para cada área y nivel educativo.</li>
+      <li><strong>Estándares de Calidad Educativa — Acuerdo Ministerial 091-2017:</strong> Establece los parámetros de logros esperados para la gestión escolar, el desempeño profesional directivo y el desempeño profesional docente.</li>
+      <li><strong>Acuerdos ministeriales sobre evaluación y promoción estudiantil:</strong> Normativas vigentes que regulan los procesos de evaluación formativa, sumativa y de promoción escolar.</li>
+      <li><strong>Agenda 2030 — ODS 4:</strong> Garantizar una educación inclusiva, equitativa y de calidad, y promover oportunidades de aprendizaje durante toda la vida para todos.</li>
+    </ul>
+    <div class="infobox">
+      <strong>Nota:</strong> El presente PCI ha sido elaborado tomando como referencia el <em>Manual para la Implementación y Evaluación de los Estándares de Calidad Educativa: Gestión Escolar, Desempeño Profesional Directivo y Desempeño Profesional Docente</em> (MINEDUC, 2017), asegurando la alineación con las cuatro dimensiones institucionales: Gestión Administrativa, Gestión Pedagógica, Convivencia-Participación y Seguridad Escolar.
+    </div>
+  </div>
+</div>
+
+<!-- S4 IDENTIDAD -->
+<div class="seccion" id="s4">
+  <div class="seccion-header"><div class="num">4</div><h2>Identidad Institucional</h2></div>
+  <div class="seccion-body">
+
+    <div class="mv-box">
+      <h3>Misión</h3>
+      <p>Formar estudiantes felices y conscientes, mediante un modelo de educación disruptiva centrado en el ser humano, que integre emprendimiento y networking, responsabilidad social y ambiental, familia, felicidad y positivismo, tecnología e intercambio cultural, desarrollando competencias académicas, socioemocionales, digitales y ciudadanas, para que sean agentes de transformación ética, creativa y comprometida con su comunidad local y global.</p>
+    </div>
+
+    <div class="mv-box" style="margin-top:16px;">
+      <h3>Visión</h3>
+      <p>Ser una unidad educativa referente en educación disruptiva e innovadora, reconocida por formar ciudadanos capaces de aprender, emprender y convivir en un mundo cambiante, integrando los ocho pilares de Eight Academy y los principios tecnológicos actuales, desde una pedagogía constructivista que promueve la conciencia personal y la transformación social sostenible.</p>
+    </div>
+
+    <h3>Los 8 Pilares Institucionales</h3>
+    <div class="pilares">
+      <div class="pilar"><div class="num-pilar">1</div><p>🚀 Emprendimiento</p></div>
+      <div class="pilar"><div class="num-pilar">2</div><p>🤝 Networking</p></div>
+      <div class="pilar"><div class="num-pilar">3</div><p>🌱 Responsabilidad Social y Ambiental</p></div>
+      <div class="pilar"><div class="num-pilar">4</div><p>👨‍👩‍👧 Familia</p></div>
+      <div class="pilar"><div class="num-pilar">5</div><p>😊 Felicidad y Positivismo</p></div>
+      <div class="pilar"><div class="num-pilar">6</div><p>💻 Tecnología</p></div>
+      <div class="pilar"><div class="num-pilar">7</div><p>🌍 Intercambio Cultural</p></div>
+      <div class="pilar"><div class="num-pilar">8</div><p>⚡ Educación Disruptiva</p></div>
+    </div>
+
+    <h3>Valores Institucionales</h3>
+    <div class="valores-grid">
+      <div class="valor"><h4>Solidaridad</h4><p>Expresión de justicia que fortalece a las personas y colectivos para construir una sociedad justa y participativa.</p></div>
+      <div class="valor"><h4>Confianza</h4><p>Convicción de que las personas son capaces de lograr sus propósitos con respeto, integridad y transparencia.</p></div>
+      <div class="valor"><h4>Familiaridad</h4><p>Espacio de acompañamiento, amabilidad y buen trato que potencia las relaciones cordiales y fraternas.</p></div>
+      <div class="valor"><h4>Corresponsabilidad</h4><p>Compromiso de liderazgo y trabajo en equipo para alcanzar metas comunes con voluntad y cooperación.</p></div>
+      <div class="valor"><h4>Resiliencia</h4><p>Capacidad de aprender de la adversidad y adquirir nuevas formas de pensamiento y acción.</p></div>
+      <div class="valor"><h4>Flexibilidad</h4><p>Capacidad de adaptarse a las circunstancias mejorando el entendimiento y convivencia con los demás.</p></div>
+      <div class="valor"><h4>Amor</h4><p>Fuerza que impulsa a hacer bien las cosas y que diferencia el bien del mal en todas las acciones.</p></div>
+      <div class="valor"><h4>Honestidad</h4><p>Coherencia entre lo que se dice y hace, sin aprovecharse de la confianza o ignorancia de otros.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 FUNDAMENTACIÓN -->
+<div class="seccion" id="s5">
+  <div class="seccion-header"><div class="num">5</div><h2>Fundamentación Filosófica y Pedagógica</h2></div>
+  <div class="seccion-body">
+    <h3>Propósito Institucional</h3>
+    <p>La identidad y propósito de Eight Academy se enfoca en ser una alternativa real que reemplace a la educación convencional para educar personas que cambien o aporten lo mejor de sí mismos a su comunidad inmediata y global. La institución busca métodos de educación alternativa que respondan a las necesidades de niños y jóvenes del siglo XXI, para que en el futuro sean partícipes activos de su propio bien ser, bien estar, bien hacer y bien tener, así como de su ecosistema sociocultural, económico y político.</p>
+
+    <h3>Teoría de la Modificabilidad Cognitiva Estructural</h3>
+    <p>El fundamento pedagógico central de Eight Academy es la <strong>Teoría de la Modificabilidad Cognitiva Estructural de Reuven Feuerstein (1921-2014)</strong>. Esta teoría postula que la inteligencia humana no es estática sino que puede modificarse a través de una mediación pedagógica adecuada. Eight Academy cree firmemente que, al modificar el pensamiento y la conciencia del estudiante, se logra cambiar conductas y hábitos para transformar sistemas de creencia y patrones culturales.</p>
+
+    <div class="cita">"La idea principal es apoyar la formación mediante el fomento de una mentalidad global y lograr una institución educativa transformadora que forme estudiantes creativos e independientes." — Propuesta Pedagógica Eight Academy</div>
+
+    <h3>Enfoques Pedagógicos Complementarios</h3>
+    <div class="card-grid">
+      <div class="card"><div class="icon">🏗️</div><h4>Constructivismo</h4><p>El estudiante construye su conocimiento a partir de experiencias previas y la interacción con el entorno.</p></div>
+      <div class="card"><div class="icon">🌸</div><h4>Montessori</h4><p>Respeto por el ritmo individual de aprendizaje, autonomía y desarrollo de la iniciativa desde edades tempranas.</p></div>
+      <div class="card"><div class="icon">🧠</div><h4>Socio-cognitivo</h4><p>El aprendizaje ocurre en contextos sociales a través de la interacción con pares y mediadores pedagógicos.</p></div>
+      <div class="card"><div class="icon">🤖</div><h4>Quinta Revolución Industrial</h4><p>Fusión del ser humano con la tecnología para agilizar procesos, centrado en IA y automatización ética.</p></div>
+    </div>
+
+    <h3>Herramientas Pedagógicas Institucionales Exclusivas</h3>
+    <ul>
+      <li><strong>Zoo Botánica:</strong> Campus vivencial de aprendizaje en entornos naturales. Desarrollo de conciencia ambiental, creatividad y cuidado de los seres vivos mediante experiencias orgánicas y prácticas.</li>
+      <li><strong>Cascos Infinity:</strong> Tecnología de estimulación cognitiva y sensorial para potenciar el aprendizaje y la concentración.</li>
+      <li><strong>Método Tomatis:</strong> Programa de estimulación auditiva que favorece el desarrollo del lenguaje, la comunicación, la atención y las habilidades socioemocionales.</li>
+      <li><strong>Material Tekman:</strong> Recurso didáctico para la enseñanza de inteligencia financiera y matemáticas aplicadas desde los primeros niveles.</li>
+      <li><strong>Apple Tech / TechnoMakers:</strong> Integración de tecnología Apple y programación en el currículo para desarrollar pensamiento computacional y creación digital.</li>
+      <li><strong>Lego Education:</strong> Aprendizaje basado en la construcción, la robótica y el pensamiento sistémico.</li>
+    </ul>
+
+    <h3>Competencias Clave que Desarrolla Eight Academy</h3>
+    <ul>
+      <li>Competencias comunicativas: español e inglés (bilingüismo funcional)</li>
+      <li>Competencias matemáticas y pensamiento lógico-crítico</li>
+      <li>Competencias digitales e inteligencia artificial</li>
+      <li>Competencias ciudadanas y responsabilidad social-ambiental</li>
+      <li>Competencias socioemocionales: autorregulación, empatía, resiliencia</li>
+      <li>Competencias emprendedoras e inteligencia financiera</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S6 PERFIL BACHILLER -->
+<div class="seccion" id="s6">
+  <div class="seccion-header"><div class="num">6</div><h2>Perfil de Salida del Bachiller Ecuatoriano</h2></div>
+  <div class="seccion-body">
+    <p>El perfil de salida del Bachillerato ecuatoriano, articulado con la propuesta de Eight Academy, describe al estudiante egresado como un ser humano que actúa con valores, con sólidos aprendizajes académicos, pensamiento crítico y habilidades de comunicación con excelente oratoria. Este perfil se organiza en torno a las siguientes dimensiones:</p>
+    <h4>Dimensión Académica e Intelectual</h4>
+    <p>Dominio académico en las áreas fundamentales: Lengua y Literatura, Matemáticas, Ciencias Naturales, Ciencias Sociales y Lengua Extranjera (Inglés). Aplica saberes de manera interdisciplinaria, analiza e interpreta información con pensamiento crítico, reflexivo y argumentativo para la toma de decisiones fundamentadas.</p>
+    <h4>Dimensión Tecnológica y Digital</h4>
+    <p>Usa la tecnología de manera responsable y ética; maneja conceptos del ámbito financiero, análisis de mercado y posicionamiento, proponiendo prototipos aplicados que responden a requerimientos del entorno.</p>
+    <h4>Dimensión Emprendedora</h4>
+    <p>Desarrolla espíritu emprendedor proponiendo e implementando ideas innovadoras que generen valor económico, social o ambiental mediante la Hackatón. Aplica principios financieros: planificación, ahorro, inversión responsable y gestión de recursos en contextos reales.</p>
+    <h4>Dimensión Socioemocional y Ciudadana</h4>
+    <p>Actúa con valores, trabaja en equipo, demuestra liderazgo, compromiso social y ambiental. Desarrolla un proyecto de vida consciente. Evidencia autonomía, autorregulación emocional y madurez personal.</p>
+    <h4>Dimensión Comunicativa</h4>
+    <p>Se comunica funcionalmente en español e inglés. Posee excelente oratoria para la presentación de ideas y proyectos. Muestra apertura a contextos académicos globales.</p>
+  </div>
+</div>
+
+<!-- S7 PERFILES DE SALIDA -->
+<div class="seccion" id="s7">
+  <div class="seccion-header"><div class="num">7</div><h2>Perfiles de Salida Institucionales por Nivel</h2></div>
+  <div class="seccion-body">
+
+    <h3>Nivel Inicial (Inicial 1 – 2do de Básica)</h3>
+    <p>El estudiante de nivel inicial de Eight Academy desarrolla autonomía, hábitos positivos y conciencia de sí mismo. Establece las bases de su desarrollo emocional, cognitivo y social mediante experiencias lúdicas, vivenciales y tecnológicas.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Se expresan con claridad en lengua materna y comprenden vocabulario básico en inglés</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Proponen ideas mediante asociación de conceptos para resolver desafíos en el juego</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Disfrutan y usan el arte (música, dibujo, danza) para expresar ideas y emociones</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Desarrollan actitudes de respeto y cuidado ambiental en Zoo Botánica</p></div>
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Gestionan emociones y evidencian toma de decisiones adecuadas para su edad</p></div>
+      <div class="kpi-card"><div class="pct">90-100%</div><p>Se muestran felices, trabajan en equipo, respetan a otros y la diversidad</p></div>
+    </div>
+
+    <h3>Nivel Básica Elemental y Media (3ro – 7mo EGB)</h3>
+    <p>El estudiante desarrolla habilidades fundamentales de lectura, escritura y pensamiento matemático. Consolida valores como innovación y solidaridad, capacidad de pensamiento crítico, autonomía, colaboración y comunicación efectiva.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Comprende, analiza y comunica ideas con lenguaje progresivamente estructurado</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Manifiesta curiosidad y pensamiento crítico para resolver problemas de su edad</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Utiliza tecnología de manera responsable y se familiariza con inteligencia financiera</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Desarrolla espíritu emprendedor con creatividad e iniciativa social</p></div>
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Practica normas de convivencia, empatía y trabajo colaborativo</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Reconoce su rol activo como miembro de su familia, escuela y comunidad</p></div>
+    </div>
+
+    <h3>Nivel Básica Superior y Bachillerato (8vo – 3ro BGU)</h3>
+    <p>El estudiante demuestra dominio académico en las áreas fundamentales aplicando saberes de manera interdisciplinaria. Desarrolla pensamiento crítico, reflexivo y argumentativo para la toma de decisiones fundamentadas.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Se comunica funcionalmente en inglés mostrando apertura a contextos académicos globales</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Propone e implementa ideas innovadoras con valor económico, social o ambiental (Hackatón)</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Utiliza tecnología responsablemente y maneja conceptos financieros y de mercado</p></div>
+      <div class="kpi-card"><div class="pct">80-90%</div><p>Evidencia autonomía, autorregulación emocional y madurez personal</p></div>
+      <div class="kpi-card"><div class="pct">70-80%</div><p>Muestra curiosidad y comprende fenómenos naturales y sociales con rigor científico</p></div>
+      <div class="kpi-card"><div class="pct">90%</div><p>Demuestra compromiso social, ambiental y cultural como ciudadano activo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 EJES TRANSVERSALES -->
+<div class="seccion" id="s8">
+  <div class="seccion-header"><div class="num">8</div><h2>Ejes Transversales Institucionales</h2></div>
+  <div class="seccion-body">
+    <p>Los siguientes ejes atraviesan toda la propuesta curricular de Eight Academy, integrándose en todas las áreas, niveles y proyectos institucionales:</p>
+    <div class="card-grid">
+      <div class="card"><div class="icon">🤖</div><h4>Tecnología e IA</h4><p>Integración de IA, Apple Tech, programación, robótica y metaverso en el currículo desde Inicial hasta Bachillerato.</p></div>
+      <div class="card"><div class="icon">🚀</div><h4>Emprendimiento</h4><p>Cultura emprendedora, inteligencia financiera y creación de valor en todos los niveles. Culmina con la Hackatón en Bachillerato.</p></div>
+      <div class="card"><div class="icon">🌍</div><h4>Objetivos de Desarrollo Sostenible</h4><p>ODS integrados en ciencias, sociales y proyectos. Zoo Botánica como espacio vivencial de sostenibilidad.</p></div>
+      <div class="card"><div class="icon">🗣️</div><h4>Bilingüismo</h4><p>Inglés como segunda lengua desde Inicial 1. Science y Social Studies en inglés desde Básica Media. Comunicación funcional.</p></div>
+      <div class="card"><div class="icon">💛</div><h4>Educación Socioemocional</h4><p>Inteligencia emocional, positivismo, PNL y herramienta Tomatis en todos los niveles. Bienestar como eje central.</p></div>
+      <div class="card"><div class="icon">🎨</div><h4>Pensamiento Creativo</h4><p>Arte, música, expresión corporal y creación de contenidos como vehículos de aprendizaje transversal.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 ESTRUCTURA CURRICULAR -->
+<div class="seccion" id="s9">
+  <div class="seccion-header"><div class="num">9</div><h2>Estructura Curricular y Carga Horaria</h2></div>
+  <div class="seccion-body">
+    <p>La jornada académica de Eight Academy contempla entre 25 y 40 períodos pedagógicos semanales según el nivel, distribuidos entre las áreas del currículo nacional y las asignaturas institucionales innovadoras que constituyen la propuesta diferenciadora de la institución.</p>
+
+    <h3>Inicial 1 — 25 Períodos Pedagógicos</h3>
+    <table>
+      <thead><tr><th>Área / Eje</th><th>Asignatura</th><th>Períodos</th></tr></thead>
+      <tbody>
+        <tr><td>Desarrollo Personal y Social</td><td>Inteligencia Emocional</td><td>1</td></tr>
+        <tr><td>Descubrimiento del Medio Natural</td><td>Zoobotánica / Entorno Natural y Social</td><td>3</td></tr>
+        <tr><td>Relaciones Lógico-Matemáticas</td><td>Pre Matemática</td><td>4</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>Prelenguaje</td><td>6</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>English</td><td>6</td></tr>
+        <tr><td>Expresión Artística</td><td>Rincones de Aprendizaje</td><td>2</td></tr>
+        <tr><td>Expresión Artística</td><td>Música</td><td>2</td></tr>
+        <tr><td>Expresión Corporal</td><td>Educación Física</td><td>2</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS PEDAGÓGICOS</strong></td><td><strong>25</strong></td></tr>
+        <tr><td colspan="2">Actividades de Gestión Participativa</td><td>7</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Inicial 2 — 30 Períodos Pedagógicos</h3>
+    <table>
+      <thead><tr><th>Área / Eje</th><th>Asignatura</th><th>Períodos</th></tr></thead>
+      <tbody>
+        <tr><td>Desarrollo Personal y Social</td><td>Inteligencia Emocional</td><td>1</td></tr>
+        <tr><td>Descubrimiento del Medio Natural</td><td>Zoobotánica / Entorno Natural</td><td>3</td></tr>
+        <tr><td>Relaciones Lógico-Matemáticas</td><td>Pre Matemática</td><td>5</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>Pre Lenguaje</td><td>6</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>Pre Escritura</td><td>2</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>English</td><td>7</td></tr>
+        <tr><td>Expresión Artística</td><td>Rincones de Aprendizaje / Lego Education</td><td>2</td></tr>
+        <tr><td>Expresión Artística</td><td>Música</td><td>2</td></tr>
+        <tr><td>Expresión Corporal</td><td>Educación Física</td><td>2</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS PEDAGÓGICOS</strong></td><td><strong>30</strong></td></tr>
+        <tr><td colspan="2">Actividades de Gestión Participativa</td><td>7</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Preparatoria — 1ro de Básica — 30 Períodos</h3>
+    <table>
+      <thead><tr><th>Área / Eje</th><th>Asignatura</th><th>Períodos</th></tr></thead>
+      <tbody>
+        <tr><td>Desarrollo Personal y Social</td><td>Inteligencia Emocional</td><td>1</td></tr>
+        <tr><td>Descubrimiento del Medio Natural</td><td>Zoobotánica / Entorno Natural</td><td>4</td></tr>
+        <tr><td>Relaciones Lógico-Matemáticas</td><td>Pre Matemática</td><td>5</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>Pre Lenguaje</td><td>6</td></tr>
+        <tr><td>Expresión y Comunicación</td><td>English</td><td>6</td></tr>
+        <tr><td>Expresión Artística</td><td>Rincones de Aprendizaje</td><td>2</td></tr>
+        <tr><td>Expresión Artística</td><td>Art</td><td>1</td></tr>
+        <tr><td>Expresión Artística</td><td>Música</td><td>2</td></tr>
+        <tr><td>Expresión Corporal</td><td>Educación Física</td><td>2</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS PEDAGÓGICOS</strong></td><td><strong>30</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>2do de Básica — 35 Períodos</h3>
+    <table>
+      <thead><tr><th>Área</th><th>Asignatura</th><th>Períodos</th></tr></thead>
+      <tbody>
+        <tr><td>Lengua y Literatura</td><td>Inteligencia Lingüística</td><td>1</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Lengua</td><td>6</td></tr>
+        <tr><td>Matemáticas</td><td>Matemática</td><td>5</td></tr>
+        <tr><td>Matemáticas</td><td>Rincones de Aprendizaje</td><td>1</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Estudios Sociales / Cívica</td><td>3</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Ciencias Naturales</td><td>3</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Zoobotánica</td><td>2</td></tr>
+        <tr><td>Lengua Extranjera</td><td>Inglés</td><td>8</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>Art</td><td>1</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>Educación Física</td><td>2</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>Música</td><td>2</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Inteligencia Emocional</td><td>1</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS PEDAGÓGICOS</strong></td><td><strong>35</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Básica Elemental — 3ro y 4to EGB — 32 Períodos</h3>
+    <table>
+      <thead><tr><th>Área</th><th>Asignatura</th><th>3ro EGB</th><th>4to EGB</th></tr></thead>
+      <tbody>
+        <tr><td>Lengua y Literatura</td><td>Lengua y Literatura</td><td>6</td><td>6</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Inteligencia Lingüística / ODS</td><td>1</td><td>1</td></tr>
+        <tr><td>Matemáticas</td><td>Matemática / ODS</td><td>5</td><td>5</td></tr>
+        <tr><td>Matemáticas / Tecnología</td><td>TechnoMakers</td><td>2</td><td>2</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Inteligencia Financiera / Emprendimiento</td><td>1</td><td>1</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Estudios Sociales / Cívica y Tradiciones Ecuatorianas</td><td>2</td><td>2</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Ciencias Naturales</td><td>2</td><td>2</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>ECA</td><td>2</td><td>2</td></tr>
+        <tr><td>Educación Física</td><td>Educación Física / ODS</td><td>2</td><td>2</td></tr>
+        <tr><td>Lengua Extranjera</td><td>English / ODS</td><td>7</td><td>7</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Seguridad Vial / Buenos Hábitos / ODS</td><td>1</td><td>1</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Inteligencia Emocional</td><td>1</td><td>1</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS</strong></td><td><strong>32</strong></td><td><strong>32</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Básica Media — 5to, 6to y 7mo EGB — 32 Períodos</h3>
+    <table>
+      <thead><tr><th>Área</th><th>Asignatura</th><th>5to</th><th>6to</th><th>7mo</th></tr></thead>
+      <tbody>
+        <tr><td>Lengua y Literatura</td><td>Lengua y Literatura</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Lengua y Literatura</td><td>ONU Liderazgo</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Inteligencia Lingüística / ODS</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Técnicas de Estudio</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Matemáticas</td><td>Matemática / ODS</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Matemáticas / Tecnología</td><td>Apple Tech</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Tecnología</td><td>Creación de Contenidos / IA</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Inteligencia Financiera / Emprendimiento</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Social Studies / Cívica (Inglés)</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Science (Inglés)</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>ECA</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Educación Física</td><td>Educación Física / ODS</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Lengua Extranjera</td><td>English / ODS</td><td>6</td><td>6</td><td>6</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Seguridad Vial / Buenos Hábitos</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Inteligencia Emocional</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS</strong></td><td><strong>32</strong></td><td><strong>32</strong></td><td><strong>32</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Básica Superior — 8vo, 9no y 10mo EGB — 40 Períodos</h3>
+    <table>
+      <thead><tr><th>Área</th><th>Asignatura</th><th>8vo</th><th>9no</th><th>10mo</th></tr></thead>
+      <tbody>
+        <tr><td>Lengua y Literatura</td><td>Lengua y Literatura</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Técnicas de Estudio</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Inteligencia Lingüística</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Matemáticas</td><td>Matemática</td><td>6</td><td>6</td><td>6</td></tr>
+        <tr><td>Tecnología</td><td>Inteligencia Artificial / Apple Tech</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Tecnología</td><td>Creación de Contenidos</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Emprendimiento</td><td>Emprendimiento</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Social Studies (Historia, Geografía y Cívica)</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Science</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Educación Cultural y Artística</td><td>ECA (Arte, Música, Teatro)</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Educación Física</td><td>Educación Física</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Lengua Extranjera</td><td>English</td><td>7</td><td>7</td><td>7</td></tr>
+        <tr><td>Acompañamiento Integral</td><td>Seguridad Vial / Buenos Hábitos</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Orientación Vocacional</td><td>Inteligencia Emocional</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS</strong></td><td><strong>40</strong></td><td><strong>40</strong></td><td><strong>40</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Bachillerato en Ciencias — 1ro, 2do y 3ro BGU — 40 Períodos</h3>
+    <table>
+      <thead><tr><th>Área</th><th>Asignatura</th><th>Períodos</th></tr></thead>
+      <tbody>
+        <tr class="nivel-header"><td colspan="3">TRONCO COMÚN</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Estudios Literarios</td><td>4</td></tr>
+        <tr><td>Lengua y Literatura</td><td>Inteligencia Lingüística</td><td>1</td></tr>
+        <tr><td>Matemáticas</td><td>Estudios Matemáticos (Razonamiento Lógico)</td><td>5</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Física</td><td>3</td></tr>
+        <tr><td>Ciencias Naturales</td><td>Química / Biología</td><td>3</td></tr>
+        <tr><td>Ciencias Sociales</td><td>Historia y Ciencias Sociales</td><td>3</td></tr>
+        <tr><td>Lengua Extranjera</td><td>English</td><td>5</td></tr>
+        <tr><td>Educación Física</td><td>Educación Física</td><td>2</td></tr>
+        <tr><td>ECA</td><td>Educación Cultural y Artística</td><td>2</td></tr>
+        <tr class="nivel-header"><td colspan="3">ASIGNATURAS INSTITUCIONALES DIFERENCIADAS</td></tr>
+        <tr><td>Tecnología</td><td>Inteligencia Artificial (Robótica / Metaverso)</td><td>2</td></tr>
+        <tr><td>Emprendimiento</td><td>Emprendimiento / Hackatón</td><td>3</td></tr>
+        <tr><td>Proyecto de Vida</td><td>Orientación Vocacional e Inteligencia Emocional</td><td>2</td></tr>
+        <tr><td>Liderazgo</td><td>Diseño de Proyectos / ONU Liderazgo</td><td>2</td></tr>
+        <tr class="total-row"><td colspan="2"><strong>TOTAL PERÍODOS</strong></td><td><strong>40</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S10 METODOLOGÍA -->
+<div class="seccion" id="s10">
+  <div class="seccion-header"><div class="num">10</div><h2>Metodología Institucional</h2></div>
+  <div class="seccion-body">
+    <p>La metodología de Eight Academy se sustenta en estrategias activas, participativas y centradas en el estudiante, que promueven el desarrollo de competencias del siglo XXI. El docente actúa como mediador pedagógico en el sentido de Feuerstein, facilitando el aprendizaje significativo y la modificabilidad cognitiva.</p>
+
+    <div class="metodo-card">
+      <h4>🎯 Aprendizaje Basado en Proyectos (ABP)</h4>
+      <p>Los estudiantes trabajan en proyectos interdisciplinarios que abordan problemas reales del entorno. El ABP integra contenidos de múltiples áreas y desarrolla simultáneamente competencias académicas, digitales, comunicativas y socioemocionales. Los proyectos culminan en presentaciones públicas que fortalecen la oratoria y la confianza escénica.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>🔄 Aula Invertida (Flipped Classroom)</h4>
+      <p>El estudiante accede a nuevos contenidos antes de la clase mediante recursos digitales (videos, lecturas, podcasts). El tiempo presencial se dedica a la práctica, la discusión, la resolución de problemas y el trabajo colaborativo, maximizando la interacción pedagógica.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>🎮 Gamificación</h4>
+      <p>Incorporación de elementos de juego —puntos, logros, niveles, desafíos— en el proceso de aprendizaje para aumentar la motivación, el compromiso y la perseverancia. Se aplica especialmente en Matemáticas, Inglés y Tecnología.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>🤝 Aprendizaje Colaborativo y Cooperativo</h4>
+      <p>Los estudiantes trabajan en equipos con roles definidos para alcanzar objetivos comunes. Esta metodología desarrolla habilidades de comunicación, liderazgo, empatía y corresponsabilidad.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>🧘 Metacognición y Rutinas de Pensamiento</h4>
+      <p>Los estudiantes reflexionan sistemáticamente sobre su propio proceso de aprendizaje mediante rutinas como "Pienso-Me pregunto-Exploro", "Antes-Pensaba-Ahora-Pienso" y mapas de pensamiento. Esto fortalece la autonomía y la capacidad de autoregulación.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>🌿 Aprendizaje Vivencial en Zoo Botánica</h4>
+      <p>El campus Zoo Botánica provee experiencias de aprendizaje concretas, orgánicas y vivenciales en contacto con la naturaleza. Se desarrollan competencias en ciencias naturales, educación ambiental, trabajo colaborativo y conciencia ecológica.</p>
+    </div>
+    <div class="metodo-card">
+      <h4>💻 Integración Tecnológica Permanente</h4>
+      <p>Apple Tech, cascos Infinity, plataformas digitales, herramientas de IA, Lego Education y TechnoMakers se integran como recursos pedagógicos cotidianos, no como complementos. La tecnología es el vehículo del aprendizaje.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S11 EVALUACIÓN -->
+<div class="seccion" id="s11">
+  <div class="seccion-header"><div class="num">11</div><h2>Sistema de Evaluación</h2></div>
+  <div class="seccion-body">
+    <h3>Enfoque Evaluativo</h3>
+    <p>Eight Academy aplica un sistema de evaluación integral, continua y formativa, alineado con el Reglamento General a la LOEI y los estándares de calidad MINEDUC. La evaluación no es un evento puntual sino un proceso permanente orientado a la mejora del aprendizaje y al desarrollo integral del estudiante.</p>
+
+    <h3>Tipos de Evaluación</h3>
+    <ul>
+      <li><strong>Evaluación Diagnóstica:</strong> Al inicio de cada período y unidad didáctica para identificar conocimientos previos y establecer líneas base.</li>
+      <li><strong>Evaluación Formativa:</strong> Continua, a lo largo de todo el proceso. Incluye observación directa, retroalimentación oral y escrita, autoevaluación y coevaluación.</li>
+      <li><strong>Evaluación Sumativa:</strong> Al cierre de unidades y períodos para valorar el logro de objetivos y determinar la promoción.</li>
+    </ul>
+
+    <h3>Instrumentos de Evaluación Institucionales</h3>
+    <div class="card-grid">
+      <div class="card"><div class="icon">📊</div><h4>Rúbricas</h4><p>Criterios explícitos y graduados para evaluar proyectos, exposiciones y productos de aprendizaje.</p></div>
+      <div class="card"><div class="icon">📁</div><h4>Portafolios Digitales</h4><p>Colección de evidencias del proceso de aprendizaje que muestra la evolución del estudiante.</p></div>
+      <div class="card"><div class="icon">🔬</div><h4>Proyectos Interdisciplinarios</h4><p>Productos que integran contenidos de múltiples áreas, evaluados de forma holística.</p></div>
+      <div class="card"><div class="icon">📝</div><h4>Pruebas Objetivas</h4><p>Instrumentos estandarizados para medir el dominio de contenidos conceptuales y procedimentales.</p></div>
+      <div class="card"><div class="icon">🎤</div><h4>Presentaciones Orales</h4><p>Evaluación de oratoria, argumentación y comunicación efectiva en español e inglés.</p></div>
+      <div class="card"><div class="icon">🤝</div><h4>Autoevaluación y Coevaluación</h4><p>El estudiante evalúa su propio proceso y el de sus pares, desarrollando metacognición.</p></div>
+    </div>
+
+    <h3>Escala de Calificaciones (MINEDUC)</h3>
+    <table>
+      <thead><tr><th>Escala Cuantitativa</th><th>Equivalencia Cualitativa</th></tr></thead>
+      <tbody>
+        <tr><td>9.00 – 10.00</td><td>Domina los aprendizajes requeridos (DAR)</td></tr>
+        <tr><td>7.00 – 8.99</td><td>Alcanza los aprendizajes requeridos (AAR)</td></tr>
+        <tr><td>4.01 – 6.99</td><td>Está próximo a alcanzar los aprendizajes requeridos (PAAR)</td></tr>
+        <tr><td>≤ 4.00</td><td>No alcanza los aprendizajes requeridos (NAAR)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S12 DIVERSIDAD -->
+<div class="seccion" id="s12">
+  <div class="seccion-header"><div class="num">12</div><h2>Atención a la Diversidad e Inclusión</h2></div>
+  <div class="seccion-body">
+    <p>Eight Academy reconoce y valora la diversidad como riqueza. La propuesta pedagógica de Feuerstein, complementada con el enfoque Montessori, es por naturaleza inclusiva: asume que todos los estudiantes son capaces de aprender y que la inteligencia es modificable con la mediación adecuada.</p>
+
+    <h3>Estrategias de Atención a la Diversidad</h3>
+    <ul>
+      <li><strong>Adaptaciones Curriculares:</strong> Ajustes en objetivos, metodología, recursos y evaluación para estudiantes con necesidades educativas especiales (NEE asociadas o no a discapacidad).</li>
+      <li><strong>Refuerzo Académico:</strong> Atención pedagógica adicional para estudiantes que presentan dificultades de aprendizaje, orientada a alcanzar los aprendizajes requeridos.</li>
+      <li><strong>Método Tomatis:</strong> Programa de estimulación auditiva que favorece el aprendizaje en estudiantes con dificultades de lenguaje, atención y procesamiento sensorial.</li>
+      <li><strong>Acompañamiento Psicológico:</strong> El Departamento de Consejería Estudiantil (DECE) brinda atención integral a estudiantes que lo requieran, en coordinación con las familias.</li>
+      <li><strong>Diferenciación Pedagógica:</strong> El docente ajusta estrategias, ritmos y recursos según los estilos y ritmos de aprendizaje individuales.</li>
+      <li><strong>Programa de Talentos:</strong> Enriquecimiento curricular para estudiantes con altas capacidades mediante proyectos de mayor complejidad y participación en Hackatón y ONU Liderazgo.</li>
+    </ul>
+
+    <div class="infobox">
+      <strong>Inclusión como principio:</strong> Eight Academy garantiza el derecho a la educación de todos los estudiantes sin discriminación, alineándose con los principios de la LOEI, la Agenda 2030 (ODS 4) y la Convención sobre los Derechos del Niño.
+    </div>
+  </div>
+</div>
+
+<!-- S13 PROYECTOS -->
+<div class="seccion" id="s13">
+  <div class="seccion-header"><div class="num">13</div><h2>Proyectos Institucionales</h2></div>
+  <div class="seccion-body">
+    <div class="proyecto">
+      <h4>🌱 Zoo Botánica</h4>
+      <p>Campus vivencial de aprendizaje en contacto con la naturaleza. Los estudiantes desarrollan proyectos de ciencias, matemáticas y arte en entornos naturales. Fortalece la conciencia ambiental, la creatividad y el trabajo colaborativo. Articulado con ODS 15 (Vida de ecosistemas terrestres) y ODS 13 (Acción por el clima).</p>
+    </div>
+    <div class="proyecto">
+      <h4>🚀 Hackatón Eight Academy</h4>
+      <p>Evento anual donde los estudiantes de Bachillerato proponen y prototipan soluciones innovadoras a problemas reales. Integra emprendimiento, tecnología, trabajo en equipo y pitch de ideas. Culmina con presentación ante panel de evaluadores y potenciales inversores.</p>
+    </div>
+    <div class="proyecto">
+      <h4>🌍 ONU Liderazgo</h4>
+      <p>Simulación de la Organización de Naciones Unidas donde los estudiantes representan países, debaten resoluciones y desarrollan habilidades de oratoria, negociación, argumentación e inglés diplomático. Articulado con todos los ODS.</p>
+    </div>
+    <div class="proyecto">
+      <h4>📚 Plan Lector Institucional</h4>
+      <p>Programa de lectura continua en español e inglés que integra diferentes géneros literarios, pensamiento crítico y expresión oral. Cada nivel tiene su listado de lecturas obligatorias y optativas, con estrategias de comprensión lectora graduadas.</p>
+    </div>
+    <div class="proyecto">
+      <h4>🧭 Proyecto de Vida</h4>
+      <p>Proceso de orientación vocacional y profesional que acompaña al estudiante desde Básica Superior hasta Bachillerato. Incluye identificación de talentos, exploración de carreras, definición de metas personales y académicas, y desarrollo de inteligencia emocional.</p>
+    </div>
+    <div class="proyecto">
+      <h4>💰 Inteligencia Financiera</h4>
+      <p>Programa transversal que desarrolla competencias financieras desde Inicial hasta Bachillerato mediante el material Tekman y proyectos de emprendimiento. Los estudiantes aprenden a planificar, ahorrar, invertir y tomar decisiones económicas responsables.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S14 OFERTA EXTRAORDINARIA -->
+<div class="seccion" id="s14">
+  <div class="seccion-header"><div class="num">14</div><h2>Oferta Educativa Extraordinaria</h2></div>
+  <div class="seccion-body">
+    <h3>Modalidad Virtual Intensiva</h3>
+    <p>Eight Academy ofrece una modalidad educativa extraordinaria en línea con carácter intensivo, orientada a estudiantes que por diversas circunstancias no pueden acceder a la oferta ordinaria presencial. Esta modalidad cumple con todos los estándares académicos y de evaluación del MINEDUC.</p>
+
+    <table>
+      <thead><tr><th>Nivel</th><th>Grados / Cursos</th><th>Duración por nivel</th><th>Modalidad</th></tr></thead>
+      <tbody>
+        <tr><td>Básica Superior</td><td>8vo, 9no, 10mo EGB</td><td>5 meses por nivel</td><td>Virtual Intensiva</td></tr>
+        <tr><td>Bachillerato en Ciencias</td><td>1ro, 2do, 3ro BGU</td><td>5 meses por nivel</td><td>Virtual Intensiva</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Características de la Modalidad</h3>
+    <ul>
+      <li>Clases sincrónicas y asincrónicas mediante plataformas digitales certificadas</li>
+      <li>Docentes con formación en educación virtual y pedagogía digital</li>
+      <li>Evaluaciones continuas y sumativas equivalentes a la modalidad presencial</li>
+      <li>Acompañamiento del DECE de manera virtual</li>
+      <li>Certificación oficial avalada por el MINEDUC</li>
+      <li>Acceso a recursos digitales, biblioteca virtual y herramientas colaborativas</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S15 GESTIÓN PEDAGÓGICA -->
+<div class="seccion" id="s15">
+  <div class="seccion-header"><div class="num">15</div><h2>Gestión Pedagógica y Seguimiento</h2></div>
+  <div class="seccion-body">
+    <h3>Estándares de Gestión Pedagógica (MINEDUC)</h3>
+    <p>Eight Academy implementa los estándares de la Dimensión D2 — Gestión Pedagógica del Manual MINEDUC 2017, que abarca dos componentes principales:</p>
+    <ul>
+      <li><strong>D2.C1 — Enseñanza y Aprendizaje:</strong> Planificación curricular coherente, estrategias metodológicas activas, uso de TIC, evaluación formativa y retroalimentación oportuna.</li>
+      <li><strong>D2.C2 — Consejería Estudiantil y Refuerzo Pedagógico:</strong> Atención integral a estudiantes, programas de refuerzo, seguimiento del rendimiento y articulación familia-institución.</li>
+    </ul>
+
+    <h3>Mecanismos de Seguimiento y Monitoreo</h3>
+    <ul>
+      <li><strong>Evaluaciones trimestrales institucionales:</strong> Valoración periódica del avance curricular en todos los niveles.</li>
+      <li><strong>Indicadores de logro por nivel:</strong> KPIs establecidos en los perfiles de salida con métricas cuantificables (80-90% de estudiantes que alcanzan el indicador).</li>
+      <li><strong>Reuniones de retroalimentación con familias:</strong> Informes trimestrales de avance y espacios de diálogo entre docentes, directivos y representantes legales.</li>
+      <li><strong>Evaluación docente:</strong> Proceso anual de valoración del desempeño profesional docente alineado a los Estándares D2 de Desempeño Profesional Docente MINEDUC.</li>
+      <li><strong>Autoevaluación institucional:</strong> Proceso participativo anual que involucra directivos, docentes, estudiantes y familias para identificar logros y áreas de mejora.</li>
+      <li><strong>Informes institucionales:</strong> Reporte de resultados académicos, tasas de aprobación, indicadores de convivencia y avance en planes de mejora.</li>
+    </ul>
+
+    <h3>Planificación Curricular</h3>
+    <p>Los docentes elaboran planificaciones en los siguientes niveles:</p>
+    <ul>
+      <li><strong>Planificación curricular anual (PCA):</strong> Distribución de contenidos, objetivos y criterios de evaluación por área y nivel para el año lectivo completo.</li>
+      <li><strong>Planificaciones de unidad didáctica (PUD):</strong> Diseño detallado de secuencias de aprendizaje por unidad temática.</li>
+      <li><strong>Planificaciones de clase:</strong> Estructuradas según el modelo institucional (activación-construcción-práctica-evaluación).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S16 PLANES DE MEJORA -->
+<div class="seccion" id="s16">
+  <div class="seccion-header"><div class="num">16</div><h2>Planes de Mejora Institucional</h2></div>
+  <div class="seccion-body">
+    <p>A partir del proceso de autoevaluación institucional participativa realizado en diciembre de 2025, se identificaron las siguientes áreas de mejora prioritarias para el período 2025-2026:</p>
+
+    <table>
+      <thead><tr><th>Dimensión</th><th>Debilidad Identificada</th><th>Acción de Mejora</th><th>Responsable</th><th>Plazo</th></tr></thead>
+      <tbody>
+        <tr><td>Gestión Pedagógica</td><td>Desconocimiento de los principios de la propuesta pedagógica por parte de docentes</td><td>Programa de formación docente trimestral en filosofía institucional y Feuerstein</td><td>Vicerrectorado</td><td>1er trimestre</td></tr>
+        <tr><td>Gestión Administrativa</td><td>Desconocimiento de estándares de calidad MINEDUC</td><td>Socialización y capacitación en Estándares Acuerdo Ministerial 091-2017</td><td>Dirección de Planificación</td><td>2do trimestre</td></tr>
+        <tr><td>Gestión Pedagógica</td><td>Modificaciones frecuentes de horarios que afectan la planificación</td><td>Protocolo de modificación curricular con aprobación directiva y comunicación oportuna</td><td>Rectorado</td><td>Inmediato</td></tr>
+        <tr><td>Convivencia</td><td>Nivel parcial de vinculación proactiva de familias</td><td>Programa de vinculación familiar: talleres mensuales, canales digitales y acuerdos de corresponsabilidad</td><td>DECE</td><td>Todo el año</td></tr>
+        <tr><td>Gestión Pedagógica</td><td>Refuerzo académico aplicado de forma parcial</td><td>Protocolo sistematizado de refuerzo: detección temprana, seguimiento y evaluación de efectividad</td><td>Vicerrectorado</td><td>1er trimestre</td></tr>
+        <tr><td>Gestión Escolar</td><td>El PEI y PCI no han sido socializados ampliamente entre docentes</td><td>Jornadas de socialización, talleres de apropiación y difusión digital del PCI a toda la comunidad</td><td>Equipo Directivo</td><td>Inicio de año</td></tr>
+      </tbody>
+    </table>
+
+    <div class="infobox">
+      <strong>Compromiso institucional:</strong> Eight Academy asume la mejora continua como práctica cotidiana. Los planes de mejora son monitoreados trimestralmente por el equipo directivo y reportados a la comunidad educativa en las asambleas institucionales.
+    </div>
+  </div>
+</div>
+
+</div><!-- fin contenido -->
+
+<footer>
+  <p><strong>UNIDAD EDUCATIVA PARTICULAR EIGHT ACADEMY</strong></p>
+  <p>Plan Curricular Institucional · Período Lectivo 2025 – 2026 · Código AMIE: 17H04507</p>
+  <p>Quito, Ecuador · rectorado@eightacademy.edu.ec · https://eightacademy.edu.ec</p>
+  <p style="margin-top:8px;font-size:0.75rem;color:rgba(255,255,255,0.5);">Documento elaborado conforme a los Estándares de Calidad Educativa MINEDUC (Acuerdo Ministerial 091-2017)</p>
+</footer>
+
+</body>
+</html>

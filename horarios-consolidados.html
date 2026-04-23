@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horarios Consolidados 2025-2026 — Eight Academy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+:root{--azul:#1a3a5c;--dorado:#f5a623;--verde:#1e6b3c;--verde-snack:#2d8653;--gris:#f7f8fa;--borde:#dee2e6;--texto:#2d3748;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Open Sans',Arial,sans-serif;color:var(--texto);background:#fff;font-size:9.5pt;}
+@media print{.pb{page-break-before:always;}.portada{page-break-after:always;}body{font-size:8pt;}}
+
+/* PORTADA */
+.portada{background:linear-gradient(160deg,var(--azul) 55%,#0f2440 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;text-align:center;}
+.portada .ico{width:100px;height:100px;background:var(--dorado);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px;margin:0 auto 24px;box-shadow:0 8px 30px rgba(245,166,35,.4);}
+.portada h1{font-size:2rem;font-weight:700;margin-bottom:6px;}
+.portada .sub{font-size:.85rem;color:var(--dorado);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;}
+.portada .titulo{font-size:2.8rem;font-weight:700;color:var(--dorado);line-height:1.2;margin-bottom:8px;}
+.portada .periodo{font-size:1.1rem;color:rgba(255,255,255,.8);margin-bottom:32px;}
+.portada .linea{width:60px;height:3px;background:var(--dorado);margin:20px auto;border-radius:2px;}
+.portada .meta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:18px 36px;display:inline-grid;grid-template-columns:auto auto;gap:6px 20px;text-align:left;font-size:.85rem;}
+.portada .meta span:nth-child(odd){color:var(--dorado);font-weight:700;}
+.portada .meta span:nth-child(even){color:rgba(255,255,255,.9);}
+
+/* TOC */
+.contenido{max-width:1100px;margin:0 auto;padding:36px 24px;}
+.toc{background:var(--gris);border-left:4px solid var(--dorado);border-radius:8px;padding:24px 30px;margin:36px 0;}
+.toc h2{color:var(--azul);font-size:1.1rem;margin-bottom:16px;}
+.toc ul{list-style:none;columns:3;column-gap:20px;}
+.toc li{margin-bottom:5px;}
+.toc a{color:#2c5282;text-decoration:none;font-size:.85rem;}
+.toc a:hover{color:var(--dorado);}
+
+/* NIVEL HEADER */
+.nivel-titulo{background:var(--azul);color:#fff;padding:14px 24px;border-radius:8px;margin:40px 0 20px;display:flex;align-items:center;gap:14px;}
+.nivel-titulo .nt-num{background:var(--dorado);color:var(--azul);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;}
+.nivel-titulo h2{font-size:1.2rem;font-weight:700;}
+
+/* HORARIO CARD */
+.horario{margin-bottom:32px;}
+.h-header{background:var(--azul);color:#fff;padding:10px 18px;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center;}
+.h-header h3{font-size:1rem;font-weight:700;}
+.h-header .horas{background:var(--dorado);color:var(--azul);border-radius:20px;padding:3px 12px;font-size:.78rem;font-weight:700;}
+
+/* TABLA */
+table{width:100%;border-collapse:collapse;border:1px solid var(--borde);border-top:none;}
+th{background:var(--azul);color:#fff;padding:8px 6px;text-align:center;font-size:.8rem;font-weight:700;border:1px solid #2c5282;}
+th:first-child{width:120px;text-align:left;padding-left:10px;}
+td{padding:6px 5px;text-align:center;border:1px solid var(--borde);font-size:.8rem;vertical-align:middle;min-height:36px;}
+td:first-child{text-align:left;padding-left:10px;font-weight:600;color:var(--azul);background:var(--gris);font-size:.75rem;white-space:nowrap;}
+tr:nth-child(even) td:not(.posit):not(.recreo):not(.almuerzo):not(.snack):not(.extra):not(.salida){background:#fafbfc;}
+
+/* TIPOS DE FILA */
+.posit td{background:var(--dorado)!important;color:var(--azul);font-weight:700;text-align:center;}
+.posit td:first-child{background:var(--dorado)!important;color:var(--azul);}
+.recreo td,.snack td{background:#d4edda!important;color:#155724;font-weight:700;text-align:center;}
+.recreo td:first-child,.snack td:first-child{background:#d4edda!important;color:#155724;}
+.almuerzo td{background:#c3e6cb!important;color:#155724;font-weight:700;text-align:center;}
+.almuerzo td:first-child{background:#c3e6cb!important;color:#155724;}
+.extra td,.salida td{background:#e2e8f0!important;color:#555;font-size:.75rem;text-align:center;}
+.extra td:first-child,.salida td:first-child{background:#e2e8f0!important;color:#555;}
+
+/* CELDA MATERIA */
+.mat{line-height:1.3;}
+.mat .curso{font-weight:700;color:var(--azul);font-size:.78rem;display:block;}
+.mat .asig{font-size:.76rem;color:#333;}
+/* sin curso (horarios por curso) */
+.asig-sola{font-weight:600;color:#1a1a2e;font-size:.8rem;}
+
+/* NOTA PIE */
+.nota-horario{font-size:.72rem;color:#666;text-align:center;padding:5px;background:#f8f9fa;border:1px solid var(--borde);border-top:none;border-radius:0 0 6px 6px;}
+
+footer{background:var(--azul);color:rgba(255,255,255,.7);text-align:center;padding:18px;font-size:.78rem;margin-top:50px;}
+footer strong{color:var(--dorado);}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="portada">
+  <div class="ico">📅</div>
+  <div class="sub">Unidad Educativa Particular</div>
+  <h1>EIGHT ACADEMY</h1>
+  <div class="linea"></div>
+  <div class="titulo">Horarios<br>Consolidados</div>
+  <div class="periodo">Período Escolar 2025 – 2026</div>
+  <div class="meta">
+    <span>AMIE:</span><span>17H04507</span>
+    <span>Régimen:</span><span>Sierra</span>
+    <span>Jornada:</span><span>Matutina</span>
+    <span>Rectora:</span><span>Mgs. Montserrat del Pozo</span>
+    <span>Niveles:</span><span>Inicial · EGB · Bachillerato</span>
+    <span>Elaborado:</span><span>Vicerrectorado y Dpto. Académico</span>
+  </div>
+</div>
+
+<div class="contenido">
+
+<!-- TOC -->
+<div class="toc">
+  <h2>📋 Tabla de Contenidos</h2>
+  <ul>
+    <li><a href="#ini1">Inicial I</a></li>
+    <li><a href="#ini2a">Inicial II A</a></li>
+    <li><a href="#ini2b">Inicial II B</a></li>
+    <li><a href="#1a">Primero A</a></li>
+    <li><a href="#1b">Primero B</a></li>
+    <li><a href="#1c">Primero C</a></li>
+    <li><a href="#1d">Primero D</a></li>
+    <li><a href="#2a">Segundo A</a></li>
+    <li><a href="#2b">Segundo B</a></li>
+    <li><a href="#2c">Segundo C</a></li>
+    <li><a href="#2d">Segundo D</a></li>
+    <li><a href="#3a">Tercero A</a></li>
+    <li><a href="#3b">Tercero B</a></li>
+    <li><a href="#3c">Tercero C</a></li>
+    <li><a href="#4a">Cuarto A</a></li>
+    <li><a href="#4b">Cuarto B</a></li>
+    <li><a href="#4c">Cuarto C</a></li>
+    <li><a href="#5a">Quinto A</a></li>
+    <li><a href="#5b">Quinto B</a></li>
+    <li><a href="#6a">Sexto A</a></li>
+    <li><a href="#6b">Sexto B</a></li>
+    <li><a href="#6c">Sexto C</a></li>
+    <li><a href="#7a">Séptimo A</a></li>
+    <li><a href="#7b">Séptimo B</a></li>
+    <li><a href="#7c">Séptimo C</a></li>
+    <li><a href="#8a">Octavo A</a></li>
+    <li><a href="#8b">Octavo B</a></li>
+    <li><a href="#8c">Octavo C</a></li>
+    <li><a href="#8d">Octavo D</a></li>
+    <li><a href="#9a">Noveno A</a></li>
+    <li><a href="#9b">Noveno B</a></li>
+    <li><a href="#9c">Noveno C</a></li>
+  </ul>
+</div>
+
+<!-- =================== NIVEL INICIAL =================== -->
+<div class="nivel-titulo"><div class="nt-num">1</div><h2>NIVEL INICIAL</h2></div>
+
+<!-- INICIAL I -->
+<div class="horario" id="ini1">
+  <div class="h-header"><h3>INICIAL I</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES</td></tr>
+    <tr><td>08:30 – 09:00</td><td class="asig-sola">EEFF</td><td class="asig-sola">Rincones</td><td class="asig-sola">Inglés</td><td class="asig-sola">Prelenguaje</td><td class="asig-sola">Música</td></tr>
+    <tr><td>09:00 – 09:30</td><td class="asig-sola">Prelenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr class="snack"><td>09:30 – 10:00</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr class="recreo"><td>10:00 – 10:30</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>10:30 – 11:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Prelenguaje</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">EEFF</td></tr>
+    <tr><td>11:00 – 11:30</td><td class="asig-sola">Inglés</td><td class="asig-sola">Prelenguaje</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Prelenguaje</td></tr>
+    <tr><td>11:30 – 12:00</td><td class="asig-sola">Música</td><td class="asig-sola">Prelenguaje</td><td class="asig-sola">Entorno</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Entorno</td></tr>
+    <tr class="almuerzo"><td>12:00 – 12:50</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="salida"><td>12:50 – 13:00</td><td colspan="5">Aseo</td></tr>
+    <tr class="salida"><td>13:00 – 13:30</td><td colspan="5">Salida jornada curricular</td></tr>
+    <tr class="extra"><td>13:30 – 15:30</td><td colspan="5">Tiempo libre / Extracurriculares</td></tr>
+    <tr class="salida"><td>15:30 – 16:00</td><td colspan="5">Salida extracurriculares</td></tr>
+  </table>
+</div>
+
+<!-- INICIAL II A -->
+<div class="horario" id="ini2a">
+  <div class="h-header"><h3>INICIAL II — PARALELO A</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Pre escritura</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Pre escritura</td><td class="asig-sola">Pre matemática</td></tr>
+    <tr class="snack"><td>09:40 – 10:10</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr class="recreo"><td>10:10 – 10:40</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Música</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Pre lenguaje</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">EEFF</td><td class="asig-sola">Entorno</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Entorno</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Rincones/Lego</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Música</td><td class="asig-sola">Inglés</td><td class="asig-sola">Rincones/Lego</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="salida"><td>13:30 – 14:00</td><td colspan="5">Salida jornada curricular</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">Tiempo libre / Extracurriculares</td></tr>
+    <tr class="salida"><td>15:30 – 16:00</td><td colspan="5">Salida extracurriculares</td></tr>
+  </table>
+</div>
+
+<!-- INICIAL II B -->
+<div class="horario" id="ini2b">
+  <div class="h-header"><h3>INICIAL II — PARALELO B</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Inglés</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre lenguaje</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Pre lenguaje</td></tr>
+    <tr class="snack"><td>09:40 – 10:10</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr class="recreo"><td>10:10 – 10:40</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Entorno</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre matemática</td><td class="asig-sola">Pre escritura</td><td class="asig-sola">Música</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">Pre lenguaje</td><td class="asig-sola">Música</td><td class="asig-sola">Rincones/Lego</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Pre matemática</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Pre escritura</td><td class="asig-sola">Entorno</td><td class="asig-sola">Rincones/Lego</td><td class="asig-sola">EEFF</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="salida"><td>13:30 – 14:00</td><td colspan="5">Salida jornada curricular</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">Extracurriculares</td></tr>
+  </table>
+</div>
+
+<!-- =================== PREPARATORIA =================== -->
+<div class="nivel-titulo pb"><div class="nt-num">2</div><h2>NIVEL PREPARATORIA — PRIMERO DE BÁSICA</h2></div>
+
+<!-- MACRO para primero: misma estructura que inicial adaptada -->
+<div class="horario" id="1a">
+  <div class="h-header"><h3>PRIMERO DE BÁSICA — PARALELO A</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Música</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">Entorno</td><td class="asig-sola">EEFF</td><td class="asig-sola">Música</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Art</td></tr>
+    <tr class="recreo"><td>09:40 – 10:10</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>10:10 – 10:40</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Rincones</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Rincones</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Entorno</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Pre Lenguaje</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Entorno</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="salida"><td>13:30 – 14:00</td><td colspan="5">Salida jornada curricular</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="1b">
+  <div class="h-header"><h3>PRIMERO DE BÁSICA — PARALELO B</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Música</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">EEFF</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">Art</td><td class="asig-sola">Entorno</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="recreo"><td>09:40 – 10:10</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>10:10 – 10:40</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Rincones</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Música</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">Rincones</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">I. Emocional</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Entorno</td><td class="asig-sola">Inglés</td><td class="asig-sola">Entorno</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="1c">
+  <div class="h-header"><h3>PRIMERO DE BÁSICA — PARALELO C</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Música</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">EEFF</td><td class="asig-sola">Entorno</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Música</td></tr>
+    <tr class="recreo"><td>09:40 – 10:10</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>10:10 – 10:40</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Entorno</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Rincones</td><td class="asig-sola">EEFF</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Rincones</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Entorno</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Lenguaje</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Art</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="1d">
+  <div class="h-header"><h3>PRIMERO DE BÁSICA — PARALELO D</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:05</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Pre Lenguaje</td></tr>
+    <tr><td>09:05 – 09:40</td><td class="asig-sola">Entorno</td><td class="asig-sola">Inglés</td><td class="asig-sola">Art</td><td class="asig-sola">EEFF</td><td class="asig-sola">Pre Lenguaje</td></tr>
+    <tr class="recreo"><td>09:40 – 10:10</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>10:10 – 10:40</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>10:40 – 11:15</td><td class="asig-sola">Inglés</td><td class="asig-sola">Música</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>11:15 – 11:50</td><td class="asig-sola">Inglés</td><td class="asig-sola">Entorno</td><td class="asig-sola">Inglés</td><td class="asig-sola">Música</td><td class="asig-sola">Pre Matemática</td></tr>
+    <tr><td>11:50 – 12:25</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Rincones</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>12:25 – 13:00</td><td class="asig-sola">Pre Matemática</td><td class="asig-sola">Rincones</td><td class="asig-sola">Pre Lenguaje</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Entorno</td></tr>
+    <tr class="almuerzo"><td>13:00 – 13:30</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:00 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<!-- =================== SEGUNDO =================== -->
+<div class="nivel-titulo pb"><div class="nt-num">3</div><h2>SEGUNDO DE BÁSICA</h2></div>
+
+<div class="horario" id="2a">
+  <div class="h-header"><h3>SEGUNDO DE BÁSICA — PARALELO A</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:10</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>09:10 – 09:50</td><td class="asig-sola">Matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr><td>09:50 – 10:30</td><td class="asig-sola">Lengua</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">Matemática</td><td class="asig-sola">Rincones</td><td class="asig-sola">Lengua</td></tr>
+    <tr class="recreo"><td>10:30 – 11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>11:00 – 11:30</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>11:30 – 12:05</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">EEFF</td><td class="asig-sola">Inglés</td><td class="asig-sola">EEFF</td></tr>
+    <tr><td>12:05 – 12:40</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>12:40 – 13:15</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">Música</td><td class="asig-sola">Est. Sociales</td></tr>
+    <tr><td>13:15 – 13:50</td><td class="asig-sola">Música</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Art</td></tr>
+    <tr class="almuerzo"><td>13:50 – 14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:25 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="2b">
+  <div class="h-header"><h3>SEGUNDO DE BÁSICA — PARALELO B</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:10</td><td class="asig-sola">Inglés</td><td class="asig-sola">Matemática</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>09:10 – 09:50</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Rincones</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr><td>09:50 – 10:30</td><td class="asig-sola">Lengua</td><td class="asig-sola">Art</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Matemática</td></tr>
+    <tr class="recreo"><td>10:30 – 11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>11:00 – 11:30</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>11:30 – 12:05</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">EEFF</td><td class="asig-sola">Música</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>12:05 – 12:40</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Inglés</td><td class="asig-sola">EEFF</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Música</td></tr>
+    <tr><td>12:40 – 13:15</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">I. Emocional</td></tr>
+    <tr><td>13:15 – 13:50</td><td class="asig-sola">Inglés</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Est. Sociales</td></tr>
+    <tr class="almuerzo"><td>13:50 – 14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:25 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="2c">
+  <div class="h-header"><h3>SEGUNDO DE BÁSICA — PARALELO C</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:10</td><td class="asig-sola">Matemática</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>09:10 – 09:50</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Matemática</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>09:50 – 10:30</td><td class="asig-sola">Inglés</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Rincones</td></tr>
+    <tr class="recreo"><td>10:30 – 11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>11:00 – 11:30</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>11:30 – 12:05</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Est. Sociales</td></tr>
+    <tr><td>12:05 – 12:40</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">EEFF</td></tr>
+    <tr><td>12:40 – 13:15</td><td class="asig-sola">Música</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>13:15 – 13:50</td><td class="asig-sola">Art</td><td class="asig-sola">EEFF</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Música</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="almuerzo"><td>13:50 – 14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:25 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="2d">
+  <div class="h-header"><h3>SEGUNDO DE BÁSICA — PARALELO D</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>SESIÓN / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">NEUROFUNCIONES / POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>08:30 – 09:10</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">Matemática</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>09:10 – 09:50</td><td class="asig-sola">Inglés</td><td class="asig-sola">Matemática</td><td class="asig-sola">Inglés</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>09:50 – 10:30</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Lengua</td></tr>
+    <tr class="recreo"><td>10:30 – 11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr class="snack"><td>11:00 – 11:30</td><td colspan="5">🍎 SNACK</td></tr>
+    <tr><td>11:30 – 12:05</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Inglés</td><td class="asig-sola">EEFF</td><td class="asig-sola">Est. Sociales</td></tr>
+    <tr><td>12:05 – 12:40</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">EEFF</td><td class="asig-sola">Est. Sociales</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>12:40 – 13:15</td><td class="asig-sola">Inglés</td><td class="asig-sola">Música</td><td class="asig-sola">Lengua</td><td class="asig-sola">Zoobotánica</td><td class="asig-sola">Cc. Naturales</td></tr>
+    <tr><td>13:15 – 13:50</td><td class="asig-sola">Cc. Naturales</td><td class="asig-sola">Rincones</td><td class="asig-sola">Música</td><td class="asig-sola">Art</td><td class="asig-sola">Zoobotánica</td></tr>
+    <tr class="almuerzo"><td>13:50 – 14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr class="extra"><td>14:25 – 15:30</td><td colspan="5">EXTRACURRICULARES</td></tr>
+  </table>
+</div>
+
+<!-- =================== BÁSICA ELEMENTAL =================== -->
+<div class="nivel-titulo pb"><div class="nt-num">4</div><h2>BÁSICA ELEMENTAL — 3ro y 4to EGB</h2></div>
+
+<!-- helper macro: función JS sería ideal pero generamos estático -->
+<div class="horario" id="3a">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — TERCERO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ARTE</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">MÚSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="3b">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — TERCERO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EST. SOCIALES</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MÚSICA</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ARTE</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">CC. NATURALES</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="3c">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — TERCERO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">ARTE</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">BUENOS HÁBITOS</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EST. SOCIALES</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">CC. NATURALES</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">MÚSICA</td><td class="asig-sola">EST. SOCIALES</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="4a">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — CUARTO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">CC. NATURALES</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ARTE</td><td class="asig-sola">MÚSICA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="4b">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — CUARTO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">TECHMAKERS</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">MÚSICA</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">BUENOS HÁBITOS</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ARTE</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="4c">
+  <div class="h-header"><h3>BÁSICA ELEMENTAL — CUARTO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">LENGUA Y LIT.</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">CC. NATURALES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. EMOCIONAL</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">EST. SOCIALES</td><td class="asig-sola">ARTE</td><td class="asig-sola">LENGUA Y LIT.</td><td class="asig-sola">TECHMAKERS</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MÚSICA</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">TECHMAKERS</td><td class="asig-sola">EST. SOCIALES</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<!-- =================== BÁSICA MEDIA =================== -->
+<div class="nivel-titulo pb"><div class="nt-num">5</div><h2>BÁSICA MEDIA — 5to, 6to y 7mo EGB</h2></div>
+
+<div class="horario" id="5a">
+  <div class="h-header"><h3>BÁSICA MEDIA — QUINTO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">ONU</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ECA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">APPLE TECH</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ECA</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">LENGUA</td><td class="asig-sola">LENGUA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="5b">
+  <div class="h-header"><h3>BÁSICA MEDIA — QUINTO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">APPLE TECH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">ECA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ECA</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">LENGUA</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ONU</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<!-- SEXTO A, B, C -->
+<div class="horario" id="6a">
+  <div class="h-header"><h3>BÁSICA MEDIA — SEXTO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">LENGUA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">LENGUA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">ONU</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SCIENCE</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ECA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ECA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">APPLE TECH</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">BUENOS HÁBITOS</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="6b">
+  <div class="h-header"><h3>BÁSICA MEDIA — SEXTO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">SCIENCE</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">ONU</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ECA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">LENGUA</td><td class="asig-sola">LENGUA</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ECA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">BUENOS HÁBITOS</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">APPLE TECH</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="6c">
+  <div class="h-header"><h3>BÁSICA MEDIA — SEXTO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">BUENOS HÁBITOS</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">LENGUA</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ECA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">LENGUA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">ONU</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">MATEMÁTICA</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ECA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">APPLE TECH</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<!-- SÉPTIMO A, B, C -->
+<div class="horario" id="7a">
+  <div class="h-header"><h3>BÁSICA MEDIA — SÉPTIMO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">LENGUA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">LENGUA</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ECA</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">ECA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">APPLE TECH</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">ONU</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="7b">
+  <div class="h-header"><h3>BÁSICA MEDIA — SÉPTIMO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">ONU</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">APPLE TECH</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ECA</td><td class="asig-sola">SOCIAL STUDIES</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">ECA</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="7c">
+  <div class="h-header"><h3>BÁSICA MEDIA — SÉPTIMO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">C. DE CONTENIDO</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">I. LINGÜÍSTICA</td></tr>
+    <tr><td>3 · 09:50–10:30</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">LENGUA</td><td class="asig-sola">I. EMOCIONAL</td><td class="asig-sola">ECA</td><td class="asig-sola">TÉC. ESTUDIO</td></tr>
+    <tr class="recreo"><td>R · 10:30–11:00</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">TÉC. ESTUDIO</td><td class="asig-sola">LENGUA</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">ONU</td><td class="asig-sola">ECA</td><td class="asig-sola">BUENOS HÁBITOS</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">APPLE TECH</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">SOCIAL STUDIES</td><td class="asig-sola">I. LINGÜÍSTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr><td>7 · 13:00–13:40</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">LENGUA</td><td class="asig-sola">SCIENCE</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">ENGLISH</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:40–14:20</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ENGLISH</td><td class="asig-sola">EDUCACIÓN FÍSICA</td><td class="asig-sola">I. FINANCIERA</td><td class="asig-sola">MATEMÁTICA</td><td class="asig-sola">I. FINANCIERA</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<!-- =================== BÁSICA SUPERIOR =================== -->
+<div class="nivel-titulo pb"><div class="nt-num">6</div><h2>BÁSICA SUPERIOR — 8vo y 9no EGB</h2></div>
+
+<div class="horario" id="8a">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — OCTAVO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Science</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Emprendimiento</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Science</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Science</td><td class="asig-sola">Emprendimiento</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Matemática</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">ECA</td><td class="asig-sola">ECA</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Science</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">Lengua</td><td class="asig-sola">Lengua</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Téc. de Estudio</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="8b">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — OCTAVO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Science</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Inglés</td><td class="asig-sola">Emprendimiento</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Science</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Science</td><td class="asig-sola">Emprendimiento</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Lengua</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Lengua</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Matemática</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">ECA</td><td class="asig-sola">ECA</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Science</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Lengua</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="8c">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — OCTAVO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Matemática</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Inglés</td><td class="asig-sola">Apple Tech</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Matemática</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Apple Tech</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Science</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Science</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Matemática</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">ECA</td><td class="asig-sola">ECA</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Lengua</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Science</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="8d">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — OCTAVO "D"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Inglés</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Matemática</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Lengua</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Matemática</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Matemática</td><td class="asig-sola">Téc. de Estudio</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Science</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Science</td><td class="asig-sola">Lengua</td><td class="asig-sola">Matemática</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">ECA</td><td class="asig-sola">ECA</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Science</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="9a">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — NOVENO "A"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Matemática</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Lengua</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Social Studies</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Science</td><td class="asig-sola">Science</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Lengua</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">ECA</td><td class="asig-sola">C. de Contenido</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ECA</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Social Studies</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="9b">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — NOVENO "B"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Matemática</td><td class="asig-sola">Lengua</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Matemática</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Matemática</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Lengua</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Matemática</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Science</td><td class="asig-sola">Science</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Lengua</td><td class="asig-sola">ECA</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ECA</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Lengua</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Social Studies</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+<div class="horario" id="9c">
+  <div class="h-header"><h3>BÁSICA SUPERIOR — NOVENO "C"</h3><span class="horas">HORARIO SEMANAL</span></div>
+  <table>
+    <tr><th>PER. / HORA</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th><th>JUEVES</th><th>VIERNES</th></tr>
+    <tr class="posit"><td>08:00 – 08:30</td><td colspan="5">POSITIVISMO Y FELICIDAD</td></tr>
+    <tr><td>1 · 08:30–09:10</td><td class="asig-sola">Matemática</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Science</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Inglés</td></tr>
+    <tr><td>2 · 09:10–09:50</td><td class="asig-sola">Matemática</td><td class="asig-sola">Social Studies</td><td class="asig-sola">Science</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td></tr>
+    <tr class="recreo"><td>R · 09:50–10:20</td><td colspan="5">🏃 RECREO</td></tr>
+    <tr><td>3 · 10:20–11:00</td><td class="asig-sola">Buenos Hábitos</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>4 · 11:00–11:40</td><td class="asig-sola">Lengua</td><td class="asig-sola">Inglés</td><td class="asig-sola">Inglés</td><td class="asig-sola">Science</td><td class="asig-sola">Matemática</td></tr>
+    <tr><td>5 · 11:40–12:20</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Matemática</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Téc. Estudio</td><td class="asig-sola">Science</td></tr>
+    <tr><td>6 · 12:20–13:00</td><td class="asig-sola">Emprendimiento</td><td class="asig-sola">Matemática</td><td class="asig-sola">I. Lingüística</td><td class="asig-sola">C. de Contenido</td><td class="asig-sola">Lengua</td></tr>
+    <tr class="almuerzo"><td>ALM · 13:00–13:40</td><td colspan="5">🍽️ ALMUERZO</td></tr>
+    <tr><td>7 · 13:40–14:20</td><td class="asig-sola">I. Emocional</td><td class="asig-sola">Lengua</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">ECA</td><td class="asig-sola">Ed. Física</td></tr>
+    <tr><td>8 · 14:20–15:00</td><td class="asig-sola">ECA</td><td class="asig-sola">Lengua</td><td class="asig-sola">Apple Tech</td><td class="asig-sola">Ed. Física</td><td class="asig-sola">I. Lingüística</td></tr>
+    <tr class="extra"><td>15:00–16:10</td><td colspan="5">EXTRACURRICULARES · SALIDA 15:00 HORAS</td></tr>
+  </table>
+</div>
+
+</div><!-- fin contenido -->
+
+<footer>
+  <p><strong>UNIDAD EDUCATIVA PARTICULAR EIGHT ACADEMY</strong></p>
+  <p>Horarios Consolidados · Período Escolar 2025 – 2026 · AMIE: 17H04507 · Quito, Ecuador</p>
+  <p style="margin-top:6px;font-size:.72rem;color:rgba(255,255,255,.4);">Elaborado por: Vicerrectorado y Departamento Académico</p>
+</footer>
+</body>
+</html>
